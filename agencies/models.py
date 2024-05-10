@@ -8,13 +8,13 @@ class TourAgency(models.Model):
     description = models.TextField()
 
 class Tour(models.Model):
-    agency = models.ForeignKey(TourAgency, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    duration = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    locations = models.TextField()
-    image_url = models.URLField()
+    agency = models.ForeignKey(TourAgency, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField( null=True, blank=True)
+    duration = models.PositiveIntegerField( null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    locations = models.TextField( null=True, blank=True)
+    image_url = models.URLField( null=True, blank=True)
 
 class TourBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
