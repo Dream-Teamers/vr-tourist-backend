@@ -1,27 +1,34 @@
+from os import fork
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import searchProfiles, paginateProfiles
 from .forms import UserRegistrationForm
+from .forms import UserLoginForm
 
 
 def loginUser(request):
-    if request.user.is_authenticated:
-        return redirect('profiles')
-
+    page: 'login'
+    form = UserLoginForm()
+    
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect(request.GET.get('next', 'account'))
-        else:
-            messages.error(request, 'Username OR password is incorrect')
-
-    return render(request, 'users/login.html', {'page': 'login' })
+            if user is not None:
+                login(request, user)
+                return redirect(request.GET.get('next', 'account'))
+            else:
+                messages.error(request, 'Username OR password is incorrect')
+    
+    else:
+        form = UserLoginForm()
+        
+    return render(request, 'users/login.html', {'form': form})
 
 
 def logoutUser(request):
@@ -51,7 +58,7 @@ def registerUser(request):
                 request, 'An error has occurred during registration')
 
     context = {'page': page, 'form': form}
-    return render(request, 'users/login_register.html', context)
+    return render(request, 'users/register.html', context)
 
 
 def profiles(request):
@@ -88,16 +95,9 @@ def userAccount(request):
 @login_required(login_url='login')
 def editAccount(request):
     profile = request.user.profile
-    form = ProfileForm(instance=profile)
+    profile, created = profile.objects.get_or_create(user=request.user)
 
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-
-            return redirect('account')
-
-    context = {'form': form}
+    context = {'form': fork}
     return render(request, 'users/profile_form.html', context)
 
 # @login_required(login_url='login')
