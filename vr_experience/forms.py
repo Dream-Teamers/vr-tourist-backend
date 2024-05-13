@@ -7,4 +7,4 @@ import logging
 class VRForm(ModelForm):
     class Meta:
         model = VRExperience
-        fields = ['title','description','duration','price','tags','image_url','locations'] 
+        fields = ['title','description','duration','price'] 
