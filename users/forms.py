@@ -1,10 +1,10 @@
 from django.forms import ModelForm
-from .models import VRExperience
+from .models import UserProfile
 import logging
 
 
 
-class VRForm(ModelForm):
+class UserForm(ModelForm):
     class Meta:
-        model = VRExperience
-        fields = ['title','description','duration','price'] 
+        model = UserProfile
+        fields = '__all__'
