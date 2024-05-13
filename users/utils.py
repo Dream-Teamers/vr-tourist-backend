@@ -1,5 +1,3 @@
-# users/utils.py
-
 from users.models import UserProfile
 
 
