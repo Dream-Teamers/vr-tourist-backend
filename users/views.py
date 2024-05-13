@@ -79,7 +79,7 @@ def profiles(request):
 
 
 def userProfile(request, pk):
-    profile = Profile.objects.get(id=pk)
+    profile = profile.objects.get(id=pk)
 
     topRoles = profile.role_set.exclude(description__exact="")
     otherRoles = profile.role_set.filter(description="")
