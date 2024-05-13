@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
@@ -210,18 +209,3 @@ def createMessage(request, pk):
 
     context = {'recipient': recipient, 'form': form}
     return render(request, 'users/message_form.html', context)
-=======
-from django.shortcuts import render, redirect
-from .forms import SignUpForm
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # You can add any post-sign-up logic here
-            return redirect('login')  # Redirect to login page after successful sign-up
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
->>>>>>> 22772f69ccc23f13ebac30d0b7f0e34459f65967
