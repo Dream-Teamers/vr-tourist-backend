@@ -4,8 +4,32 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import searchProfiles, paginateProfiles
-from .forms import UserRegistrationForm
 from .forms import UserLoginForm
+from .forms import RegisterForm
+from .models import UserProfile
+from django.contrib.auth.forms import UserCreationForm
+
+
+
+def registerPage(request):
+    form = UserCreationForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            # username = form.cleaned_data.get('username')
+            # password = form.cleaned_data.get('password')
+            # user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, 'Account was created')
+            return redirect('login')
+        else:
+            messages.error(request, 'Unsuccessful registration. Invalid information.')
+
+    return render(request, 'users/register.html', {'form': form})
 
 
 def loginUser(request):
@@ -21,7 +45,7 @@ def loginUser(request):
 
             if user is not None:
                 login(request, user)
-                return redirect(request.GET.get('next', 'account'))
+                return redirect(request.GET.get('profile'))
             else:
                 messages.error(request, 'Username OR password is incorrect')
     
@@ -37,69 +61,83 @@ def logoutUser(request):
     return redirect('login')
 
 
-def registerUser(request):
-    page = 'register'
-    form = UserRegistrationForm()
+def userProfile(request, pk):
+    profile = UserProfile.objects.get(id=pk)
 
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-
-            messages.success(request, 'User account was created!')
-
-            login(request, user)
-            return redirect('edit-account')
-
-        else:
-            messages.success(
-                request, 'An error has occurred during registration')
-
-    context = {'page': page, 'form': form}
-    return render(request, 'users/register.html', context)
-
-
-def profiles(request):
-    profiles, search_query = searchProfiles(request)
-
-    custom_range, profiles = paginateProfiles(request, profiles, 3)
-    context = {'profiles': profiles, 'search_query': search_query,
-               'custom_range': custom_range}
+    context = {'profile': profile,
+               }
     return render(request, 'users/profiles.html', context)
 
 
-def userProfile(request, pk):
-    profile = profile.objects.get(id=pk)
-
-    topRoles = profile.role_set.exclude(description__exact="")
-    otherRoles = profile.role_set.filter(description="")
-
-    context = {'profile': profile, 'topRoles': topRoles,
-               "otherRoles": otherRoles}
-    return render(request, 'users/user-profile.html', context)
 
 
-@login_required(login_url='login')
-def userAccount(request):
-    profile = request.user.profile
-
-    roles = profile.role_set.all()
-    projects = profile.project_set.all()
-
-    context = {'profile': profile, 'roles': roles, 'projects': projects}
-    return render(request, 'users/account.html', context)
 
 
-@login_required(login_url='login')
-def editAccount(request):
-    profile = request.user.profile
-    profile, created = profile.objects.get_or_create(user=request.user)
 
-    context = {'form': fork}
-    return render(request, 'users/profile_form.html', context)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @login_required(login_url='login')
+# def userAccount(request):
+#     profile = request.user.profile
+
+#     roles = profile.role_set.all()
+#     projects = profile.project_set.all()
+
+#     context = {'profile': profile, 'roles': roles, 'projects': projects}
+#     return render(request, 'users/account.html', context)
+
+
+# @login_required(login_url='login')
+# def editAccount(request):
+#     profile = request.user.profile
+#     profile, created = profile.objects.get_or_create(user=request.user)
+
+#     context = {'form': fork}
+#     return render(request, 'users/profile_form.html', context)
+# def RegisterUser(request):
+#     form = RegisterForm(request.POST)
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('login')
+#     context = {'form': form
+#         }
+        
+#     return render(request, 'users/register.html', context)
+
+                                    
 # @login_required(login_url='login')
 # def createRole(request):
 #     profile = request.user.profile
@@ -196,14 +234,14 @@ def editAccount(request):
 #     return render(request, 'users/message_form.html', context)
 
 #create function for managing user profile
-def create_user_profile(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
+# def create_user_profile(request):
+#     if request.method == 'POST':
+#         form = UserRegistrationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.username = user.username.lower()
+#             user.save()
             
-    #check if user is already logged in
-    if request.user.is_authenticated:
-        return redirect('account')
+#     #check if user is already logged in
+#     if request.user.is_authenticated:
+#         return redirect('account')

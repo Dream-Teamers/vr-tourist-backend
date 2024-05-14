@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <h2>User Profile</h2>
+    <div>
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="width: 100px; height: auto;">
+        <p>Username: {{ profile.username }}</p>
+        <p>Email: {{ profile.email }}</p>
+        <p>Date of Birth: {{ profile.date_of_birth }}</p>
+        <p>Contact Info: {{ profile.contact_info }}</p>
+        <p>Bio: {{ profile.bio }}</p>
+    </div>
+</body>
+</html>
