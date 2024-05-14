@@ -4,10 +4,13 @@ from django.contrib.auth.models import User
 # Create your models here.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    name = models.CharField(max_length=200, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     contact_info = models.CharField(max_length=100, null=True, blank=True)
+
+    
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
