@@ -1,24 +1,9 @@
-from django.forms import ModelForm
-from .models import UserProfile
-import logging
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
+from users.models import UserProfile
 
-<<<<<<< HEAD
-
-# class UserForm(ModelForm):
-#     class Meta:
-#         model = UserProfile
-#         fields = '__all__'
-# # complete fields that are required for this model
-# and_required = ['email', 'first_name', 'last_name']
-
-# class UserProfileForm(ModelForm):
-#     class Meta:
-#         model = UserProfile
-#         fields = ['email', 'first_name', 'last_name', 'phone_number', 'address', 'city', 'state', 'zip_code', 'country', 'profile_picture']
-#         # fields = '__all__'
-        
-=======
 # class UserRegistrationForm(UserCreationForm):
 #     email = forms.EmailField(required=True)
 
@@ -52,4 +37,3 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('username', 'password', 'password_confirmation')
->>>>>>> ec9081bce7fce8210024c9d11166dfbcb3bb4529
