@@ -29,7 +29,7 @@ def loginUser(request):
     else:
         print('Username OR password is incorrect')
 
-    return render(request, 'users/login.html' )
+    return render(request, 'users/login.html')
     # form = UserLoginForm()
     
     # if request.method == 'POST':
