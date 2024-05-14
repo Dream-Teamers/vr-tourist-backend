@@ -1,103 +1,107 @@
 # from os import fork
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .utils import searchProfiles, paginateProfiles
+from .forms import UserLoginForm
+from .forms import RegisterForm
+from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
-# from .utils import searchProfiles, paginateProfiles
-# from .forms import UserRegistrationForm
-# from .forms import UserLoginForm
 
 
-def loginUser(request):
-    if request.method == 'POST':
-        username = request.POST[ 'username' ]
-        password = request.POST[ 'password' ]
 
-    try:
-        user = User.objects.get(username=username)
-
-    except:
-        print('Username does not exist')
-
-
-    user = authenticate(request, username=username, password=password)
-
-    if user is not None:
-        login(request, user)
-    else:
-        print('Username OR password is incorrect')
-
-    return render(request, 'users/login.html')
-    # form = UserLoginForm()
-    
-    # if request.method == 'POST':
-    #     form = UserLoginForm(request.POST)
-    #     if form.is_valid():
-    #         username = form.cleaned_data['username']
-    #         password = form.cleaned_data['password']
-    #         user = authenticate(username=username, password=password)
-
-    #         if user is not None:
-    #             login(request, user)
-    #             return redirect(request.GET.get('next', 'account'))
-    #         else:
-    #             messages.error(request, 'Username OR password is incorrect')
-    
-    # else:
-    #     form = UserLoginForm()
-        
-    # return render(request, 'users/login.html', {'page': page})
-
-
-# def logoutUser(request):
-#     logout(request)
-#     messages.info(request, 'User was logged out!')
-#     return redirect('login')
-
-
-def registerUser(request):
-    page = 'register'
+def registerPage(request):
     form = UserCreationForm()
+    
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-
-            messages.success(request, 'User account was created!')
-
-            # login(request, user)
-            # return redirect('edit-account')
-
+            # username = form.cleaned_data.get('username')
+            # password = form.cleaned_data.get('password')
+            # user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, 'Account was created')
+            return redirect('login')
         else:
-            messages.success(
-                request, 'An error has occurred during registration')
+            messages.error(request, 'Unsuccessful registration. Invalid information.')
 
-    context = {'page': page, 'form': form}
-    return render(request, 'users/register.html', context)
+    return render(request, 'users/register.html', {'form': form})
 
 
-# def profiles(request):
-#     profiles, search_query = searchProfiles(request)
+def loginUser(request):
+    page: 'login'
+    form = UserLoginForm()
+    
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
 
-#     custom_range, profiles = paginateProfiles(request, profiles, 3)
-#     context = {'profiles': profiles, 'search_query': search_query,
-#                'custom_range': custom_range}
-#     return render(request, 'users/profiles.html', context)
+            if user is not None:
+                login(request, user)
+                return redirect(request.GET.get('profile'))
+            else:
+                messages.error(request, 'Username OR password is incorrect')
+    
+    else:
+        form = UserLoginForm()
+        
+    return render(request, 'users/login.html', {'form': form})
 
 
-# def userProfile(request, pk):
-#     profile = profile.objects.get(id=pk)
+def logoutUser(request):
+    logout(request)
+    messages.info(request, 'User was logged out!')
+    return redirect('login')
 
-#     topRoles = profile.role_set.exclude(description__exact="")
-#     otherRoles = profile.role_set.filter(description="")
 
-#     context = {'profile': profile, 'topRoles': topRoles,
-#                "otherRoles": otherRoles}
-#     return render(request, 'users/user-profile.html', context)
+def userProfile(request, pk):
+    profile = UserProfile.objects.get(id=pk)
+
+    context = {'profile': profile,
+               }
+    return render(request, 'users/profiles.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # @login_required(login_url='login')
@@ -118,7 +122,19 @@ def registerUser(request):
 
 #     context = {'form': fork}
 #     return render(request, 'users/profile_form.html', context)
+# def RegisterUser(request):
+#     form = RegisterForm(request.POST)
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('login')
+#     context = {'form': form
+#         }
+        
+#     return render(request, 'users/register.html', context)
 
+                                    
 # @login_required(login_url='login')
 # def createRole(request):
 #     profile = request.user.profile
