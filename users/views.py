@@ -1,4 +1,4 @@
-from os import fork
+# from os import fork
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -67,9 +67,6 @@ def userProfile(request, pk):
     context = {'profile': profile,
                }
     return render(request, 'users/profiles.html', context)
-
-
-
 
 
 

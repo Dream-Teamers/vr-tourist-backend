@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
 </head>
 <body>
-    <h2>User Profile</h2>
-    <div>
-        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="width: 100px; height: auto;">
-        <p>Username: {{ profile.username }}</p>
-        <p>Email: {{ profile.email }}</p>
-        <p>Date of Birth: {{ profile.date_of_birth }}</p>
-        <p>Contact Info: {{ profile.contact_info }}</p>
-        <p>Bio: {{ profile.bio }}</p>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h2 class="title">User Profile</h2>
+            <div class="content">
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="max-width: 100px; height: auto;">
+                <p><strong>Username:</strong> {{ profile.username }}</p>
+                <p><strong>Email:</strong> {{ profile.email }}</p>
+                <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+                <p><strong>Contact Info:</strong> {{ profile.contact_info }}</p>
+                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
