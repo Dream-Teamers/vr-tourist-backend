@@ -1,11 +1,7 @@
-from os import fork
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .utils import searchProfiles, paginateProfiles
 from .forms import UserLoginForm
-from .forms import RegisterForm
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
