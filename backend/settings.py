@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'apis',
     'db_manager',
     'hotels',
-    'users.apps.UsersConfig',
+    'users',
     'vr_experience',
     'agencies',
 ]
@@ -132,7 +132,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
- BASE_DIR /'static'
+ BASE_DIR / 'static'
 ]
 
 # Default primary key field type

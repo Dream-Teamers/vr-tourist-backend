@@ -25,15 +25,47 @@ class UserLoginForm(AuthenticationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="Password", max_length=30,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
-class UserEditForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class UserEditForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ('first_name', 'last_name', 'email')
 # class UserProfileForm(forms.ModelForm):
 #     class Meta:
 #         model = UserProfile
 #         fields = ('profile_picture', 'bio', 'date_of_birth', 'contact_info')
-class RegisterForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('username', 'password', 'password_confirmation')
+# class RegisterForm(forms.ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ('username', 'password', 'password_confirmation')
