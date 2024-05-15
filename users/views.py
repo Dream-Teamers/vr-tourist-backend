@@ -1,5 +1,5 @@
 from os import fork
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,8 +8,7 @@ from .forms import UserLoginForm
 from .forms import RegisterForm
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
-
-
+from .models import UserProfile
 
 def registerPage(request):
     form = UserCreationForm()
@@ -33,7 +32,6 @@ def registerPage(request):
 
 
 def loginUser(request):
-    page: 'login'
     form = UserLoginForm()
     
     if request.method == 'POST':
@@ -45,12 +43,12 @@ def loginUser(request):
 
             if user is not None:
                 login(request, user)
-                return redirect(request.GET.get('profile'))
+                return redirect('user-profile',username=user.get_username)
             else:
                 messages.error(request, 'Username OR password is incorrect')
     
-    else:
-        form = UserLoginForm()
+    # else:
+    #     form = UserLoginForm()
         
     return render(request, 'users/login.html', {'form': form})
 
@@ -61,12 +59,10 @@ def logoutUser(request):
     return redirect('login')
 
 
-def userProfile(request, pk):
-    profile = UserProfile.objects.get(id=pk)
-
-    context = {'profile': profile,
-               }
-    return render(request, 'users/profiles.html', context)
+def userProfile(request, username):
+    profile = get_object_or_404(UserProfile, username=username)
+    context = {'profile': profile,}
+    return render(request, 'users/profile.html', context)
 
 
 
