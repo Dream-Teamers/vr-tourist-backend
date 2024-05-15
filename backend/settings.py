@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'apis',
     'db_manager',
     'hotels',
-    'users',
+    'users.apps.UsersConfig',
     'vr_experience',
     'agencies',
 ]
