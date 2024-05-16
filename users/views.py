@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.decorators import login_required
 
 def registerPage(request):
     form = UserCreationForm()
@@ -79,6 +79,7 @@ def logoutUser(request):
     return redirect('login')
 
 
+@login_required(login_url='login')
 def userProfile(request, username):
     # profile = get_object_or_404(UserProfile, username=username)
     profile = get_object_or_404(User, username=username)
