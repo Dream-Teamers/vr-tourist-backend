@@ -8,6 +8,7 @@ from .forms import UserLoginForm
 from .forms import RegisterForm
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 
@@ -62,7 +63,7 @@ def logoutUser(request):
 
 
 def userProfile(request, pk):
-    profile = UserProfile.objects.get(id=pk)
+    profile = User.objects.get(id=pk)
 
     context = {'profile': profile,
                }
