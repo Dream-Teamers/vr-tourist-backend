@@ -43,8 +43,8 @@ def loginUser(request):
             else:
                 messages.error(request, 'Username OR password is incorrect')
     
-    # else:
-    #     form = UserLoginForm()
+    else:
+        form = UserLoginForm()
         
     return render(request, 'users/login.html', {'form': form})
 
