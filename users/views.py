@@ -6,6 +6,8 @@ from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
+from django.contrib.auth import authenticate, login, logout
+
 
 def registerPage(request):
     form = UserCreationForm()
@@ -29,23 +31,44 @@ def registerPage(request):
 
 
 def loginUser(request):
-    form = UserLoginForm()
     
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            if user is not None:
-                login(request, user)
-                return redirect('user-profile',username=user.get_username)
-            else:
-                messages.error(request, 'Username OR password is incorrect')
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'Username does not exist')
+            
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('user-profile', username)
+        else:
+            messages.error(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request, 'users/login.html',context)
+    # form = UserLoginForm()
     
-    else:
-        form = UserLoginForm()
+    # if request.method == 'POST':
+    #     form =  (request.POST)
+    #     if form.is_valid():
+    #         username = form.cleaned_data['username']
+    #         password = form.cleaned_data['password']
+    #         user = authenticate(username=username, password=password)
+
+    #         if user is not None:
+    #             login(request, user)
+    #             return redirect('user-profile',username=user.get_username)
+    #         else:
+    #             messages.error(request, 'Username OR password is incorrect')
+    
+    # else:
+    #     form = UserLoginForm()
         
     return render(request, 'users/login.html', {'form': form})
 
