@@ -4,11 +4,15 @@ from .forms import VRForm
 from .models import VRExperience
 
 def vr_experiences(request):
-    page = "VR Experience"
-    return render(request, 'vr_experience/vrs.html', {'message':page})
+    vrs = VRExperience.objects.all()
+    context = {
+        'vrs': vrs
+    }
+    return render(request, 'vr_experience/vrs.html', context)
 
 def vr_experience(request, pk):
-    return render(request, 'vr_experience/single-vr.html')
+    vrObj = VRExperience.objects.get(title=pk)
+    return render(request, 'vr_experience/single-vr.html', {'vr': vrObj})
 
 def createVR(request):
     form = VRForm()
