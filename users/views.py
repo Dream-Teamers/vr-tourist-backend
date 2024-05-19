@@ -32,26 +32,30 @@ def registerPage(request):
 
 def loginUser(request):
     
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
             user = User.objects.get(username=username)
-        except:
+        except User.DoesNotExist:
             messages.error(request, 'Username does not exist')
+            return redirect('login')
+
+        # except:
+        #     messages.error(request, 'Username does not exist')
             
 
         user = authenticate(username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect('user-profile', username)
+            return redirect('templates/home.html')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
-    context = {}
-    return render(request, 'users/login.html',context)
+    return render(request, 'users/login.html')
     # form = UserLoginForm()
     
     # if request.method == 'POST':
@@ -70,7 +74,7 @@ def loginUser(request):
     # else:
     #     form = UserLoginForm()
         
-    return render(request, 'users/login.html', {'form': form})
+    # return render(request, 'users/login.html', {'form': form})
 
 
 def logoutUser(request):
@@ -86,7 +90,9 @@ def userProfile(request, username):
     context = {'profile': profile,}
     return render(request, 'users/profiles.html', context)
 
-
+@login_required(login_url='login')
+def home(request):
+    return render(request, 'home.html', )
 
 
 
