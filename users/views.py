@@ -59,7 +59,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            return redirect('templates/home.html')
+            return redirect('users/home.html')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
