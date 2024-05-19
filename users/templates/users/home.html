@@ -1,4 +1,4 @@
-<!-- templates/home.html -->
+<!-- templates/users/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,15 +38,6 @@
         <h1>Welcome to the Home Page</h1>
         {% if user.is_authenticated %}
             <p>Hello, {{ user.username }}!</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user"></i> Profile
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'user-profile' user.username %}">Profile</a>
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                </div>
-            </div>
         {% else %}
             <p>You are not logged in.</p>
         {% endif %}

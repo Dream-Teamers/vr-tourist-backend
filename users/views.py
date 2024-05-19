@@ -59,7 +59,8 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            return redirect('users/home.html')
+            next_url = request.GET.get('next', 'home')
+            return redirect(next_url)
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -99,8 +100,8 @@ def userProfile(request, username):
     return render(request, 'users/profiles.html', context)
 
 @login_required(login_url='login')
-def home(request):
-    return render(request, 'home.html', )
+def get_homepage(request):
+    return render(request, 'users/home.html')
 
 
 
