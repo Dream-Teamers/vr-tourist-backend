@@ -11,6 +11,15 @@ urlpatterns = [
     path('home/', views.get_homepage, name="home"),
     path('profiles/edit/<str:username>/', views.editProfile, name="edit-profile"),
     
+    path('book-tour/', views.book_tour, name="book-tour"),
+    path('my-tours/', views.my_tours, name="my-tours"),
+    path('explore-tours/', views.explore_tours, name="explore-tours"),
+    path('account-settings/', views.account_settings, name="account-settings"),
+    path('notifications/', views.notifications, name="notifications"),
+    path('help-support/', views.help_support, name="help-support"),
+    path('settings/', views.settings, name="settings"),
+
+
     # path('account/', views.userAccount, name="account"),
 
     #path('edit-account/', views.editAccount, name="edit-account"),

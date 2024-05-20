@@ -58,6 +58,7 @@ def loginUser(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
+            
             login(request, user)
             # next_url = request.GET.get('next', 'home')
             return redirect('home')
@@ -65,25 +66,6 @@ def loginUser(request):
             messages.error(request, 'Username OR password is incorrect')
 
     return render(request, 'users/login.html')
-    # form = UserLoginForm()
-    
-    # if request.method == 'POST':
-    #     form =  (request.POST)
-    #     if form.is_valid():
-    #         username = form.cleaned_data['username']
-    #         password = form.cleaned_data['password']
-    #         user = authenticate(username=username, password=password)
-
-    #         if user is not None:
-    #             login(request, user)
-    #             return redirect('user-profile',username=user.get_username)
-    #         else:
-    #             messages.error(request, 'Username OR password is incorrect')
-    
-    # else:
-    #     form = UserLoginForm()
-        
-    # return render(request, 'users/login.html', {'form': form})
 
 
 def logoutUser(request):
@@ -121,7 +103,33 @@ def editProfile(request, username):
 
 
 
+@login_required(login_url='login')
+def book_tour(request):
+    return render(request, 'users/book_tour.html')
 
+@login_required(login_url='login')
+def my_tours(request):
+    return render(request, 'users/my_tours.html')
+
+@login_required(login_url='login')
+def explore_tours(request):
+    return render(request, 'users/explore_tours.html')
+
+@login_required(login_url='login')
+def account_settings(request):
+    return render(request, 'users/account_settings.html')
+
+@login_required(login_url='login')
+def notifications(request):
+    return render(request, 'users/notifications.html')
+
+@login_required(login_url='login')
+def help_support(request):
+    return render(request, 'users/help_support.html')
+
+@login_required(login_url='login')
+def settings(request):
+    return render(request, 'users/settings.html')
 
 
 
