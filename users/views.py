@@ -9,10 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
-
-
-
-
+from users.forms import UserUpdateForm
 
 
 
@@ -44,6 +41,7 @@ def loginUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
 
         try:
             user = User.objects.get(username=username)
@@ -99,12 +97,25 @@ def userProfile(request, username):
     context = {'profile': profile,}
     return render(request, 'users/profiles.html', context)
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def get_homepage(request):
     return render(request, 'users/home.html')
 
 
 
+@login_required(login_url='login')
+def editProfile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('user-profile', username=request.user.username)
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    context = {'form': form}
+    return render(request, 'users/edit_profile.html', context)
 
 
 
