@@ -11,7 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('vr_experience.urls')),
     path('', include('users.urls')),
-    path('home/', get_homepage,name='home')
+    path('', get_homepage,name='home')
 
 ]
 

@@ -3,11 +3,18 @@ from django.contrib.auth import login, authenticate, logout
 #import decorators login required
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserLoginForm
-from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth.models import User
+from users.forms import UserUpdateForm
+
+
+
 
 def registerPage(request):
     form = UserCreationForm()
@@ -31,31 +38,59 @@ def registerPage(request):
 
 
 def loginUser(request):
-    form = UserLoginForm()
+    
     
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            if user is not None:
-                login(request, user)
-                return redirect('user-profile',username=user.get_username)
-            else:
-                messages.error(request, 'Username OR password is incorrect')
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.error(request, 'Username does not exist')
+            return redirect('login')
+
+        # except:
+        #     messages.error(request, 'Username does not exist')
+            
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            next_url = request.GET.get('next', 'home')
+            return redirect(next_url)
+        else:
+            messages.error(request, 'Username OR password is incorrect')
+
+    return render(request, 'users/login.html')
+    # form = UserLoginForm()
     
-    else:
-        form = UserLoginForm()
+    # if request.method == 'POST':
+    #     form =  (request.POST)
+    #     if form.is_valid():
+    #         username = form.cleaned_data['username']
+    #         password = form.cleaned_data['password']
+    #         user = authenticate(username=username, password=password)
+
+    #         if user is not None:
+    #             login(request, user)
+    #             return redirect('user-profile',username=user.get_username)
+    #         else:
+    #             messages.error(request, 'Username OR password is incorrect')
+    
+    # else:
+    #     form = UserLoginForm()
         
-    return render(request, 'users/login.html', {'form': form})
+    # return render(request, 'users/login.html', {'form': form})
 
 
 def logoutUser(request):
     logout(request)
     messages.info(request, 'User was logged out!')
     return redirect('login')
+
 
 @login_required(login_url='login')
 def userProfile(request, username):
@@ -64,10 +99,25 @@ def userProfile(request, username):
     context = {'profile': profile,}
     return render(request, 'users/profiles.html', context)
 
+#@login_required(login_url='login')
+def get_homepage(request):
+    return render(request, 'users/home.html')
 
 
-    
 
+@login_required(login_url='login')
+def editProfile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('user-profile', username=request.user.username)
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    context = {'form': form}
+    return render(request, 'users/edit_profile.html', context)
 
 
 

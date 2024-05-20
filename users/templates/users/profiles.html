@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 {% load static %}
+=======
+<!-- <!DOCTYPE html>
+>>>>>>> 316a6d1c141d106d2352cfe7e543e2d5a9c747ff
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,9 +20,35 @@
                 <p><strong>Username:</strong> {{ profile.username }}</p>
                 <p><strong>Email:</strong> {{ profile.email }}</p>
                 <p><strong>Date Joined:</strong> {{ profile.date_joined }}</p>
+<<<<<<< HEAD
                 <a href="{%url 'logout' %}">logout</a>
+=======
+                <a href ="{%url 'logout'%}">Logout</a> 
+>>>>>>> 316a6d1c141d106d2352cfe7e543e2d5a9c747ff
             </div>
         </div>
     </section>
+</body>
+</html> -->
+<!-- templates/users/profiles.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>{{ profile.username }}'s Profile</h1>
+        <p>Email: {{ profile.email }}</p>
+        <p>First Name: {{ profile.first_name }}</p>
+        <p>Last Name: {{ profile.last_name }}</p>
+        <a href="{% url 'edit-profile' profile.username %}" class="btn btn-primary">Edit Profile</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
