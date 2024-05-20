@@ -8,7 +8,7 @@ def vr_experiences(request):
     context = {
         'vrs': vrs
     }
-    return render(request, 'vr_experience/vrs.html', context)
+    return render(request, 'vr_experience/vrss.html', context)
 
 def vr_experience(request, pk):
     vrObj = VRExperience.objects.get(title=pk)

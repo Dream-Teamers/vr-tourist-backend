@@ -1,0 +1,26 @@
+<!-- templates/vr_experience/vrs.html -->
+{% extends 'base.html' %}
+
+{% block title %}Explore Tours{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Explore VR Tours</h1>
+    <div class="row">
+        {% for vr in vrs %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="{{ vr.image_url }}" alt="{{ vr.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ vr.title }}</h5>
+                    <p class="card-text">{{ vr.description|truncatewords:20 }}</p>
+                    <p class="card-text"><small class="text-muted">Duration: {{ vr.duration }} mins</small></p>
+                    <p class="card-text"><small class="text-muted">Price: ${{ vr.price }}</small></p>
+                    <a href="{% url 'single-vr' vr.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
