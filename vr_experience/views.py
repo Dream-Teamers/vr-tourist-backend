@@ -11,7 +11,7 @@ def vr_experiences(request):
         'message': message,
         'rating_range': list(range(1,6))
     }
-    return render(request, 'vr_experience/vrs.html', context)
+    return render(request, 'vr_experience/vrss.html', context)
 
 def vr_experience(request, pk):
     vrObj = VRExperience.objects.get(title=pk)
