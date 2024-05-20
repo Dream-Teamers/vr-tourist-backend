@@ -3,7 +3,7 @@
 <p>Hello Welcome to the {{message}} page</p>
 <ul>
     {% for vr in vrs %}
-    <li>{{ vr.title }}</li>
+    <li><a href="{% url 'single-vr' vr.title%}">{{ vr.title }}</a></li>
     {% endfor %}
 </ul>
 <a href="{% url 'create-vr' %}">Add VR</a>

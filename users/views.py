@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
+#import decorators login required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserLoginForm
 from .models import UserProfile
@@ -55,7 +57,7 @@ def logoutUser(request):
     messages.info(request, 'User was logged out!')
     return redirect('login')
 
-
+@login_required(login_url='login')
 def userProfile(request, username):
     # profile = get_object_or_404(UserProfile, username=username)
     profile = get_object_or_404(User, username=username)
