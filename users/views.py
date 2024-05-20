@@ -59,8 +59,8 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            next_url = request.GET.get('next', 'home')
-            return redirect(next_url)
+            # next_url = request.GET.get('next', 'home')
+            return redirect('home')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -99,14 +99,14 @@ def userProfile(request, username):
     context = {'profile': profile,}
     return render(request, 'users/profiles.html', context)
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def get_homepage(request):
     return render(request, 'users/home.html')
 
 
 
 @login_required(login_url='login')
-def editProfile(request):
+def editProfile(request, username):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
