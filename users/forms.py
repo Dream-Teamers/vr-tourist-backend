@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
+from .models import HelpSupport
 from users.models import UserProfile
+
 
 # class UserRegistrationForm(UserCreationForm):
 #     email = forms.EmailField(required=True)
@@ -31,7 +32,10 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['email', 'first_name', 'last_name']
 
-
+class HelpSupportForm(forms.ModelForm):
+    class Meta:
+        model = HelpSupport
+        fields = ['name', 'email', 'question']
 
 
 
