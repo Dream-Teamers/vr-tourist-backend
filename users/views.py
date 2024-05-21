@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-#import decorators login required
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -11,8 +10,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
-from users.forms import UserUpdateForm
-
+from users.forms import UserUpdateForm, HelpSupportForm
 
 
 
@@ -44,10 +42,9 @@ def loginUser(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-
         try:
             user = User.objects.get(username=username)
-        except User.DoesNotExist:
+        except User.DoesNotExist as e:
             messages.error(request, 'Username does not exist')
             return redirect('login')
 
@@ -125,7 +122,20 @@ def notifications(request):
 
 @login_required(login_url='login')
 def help_support(request):
-    return render(request, 'users/help_support.html')
+    if request.method == 'POST':
+        form = HelpSupportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('help-support')
+    else:
+        form = HelpSupportForm()
+    return render(request, 'users/help_support.html', {'form': form})
+
+
+
+
+    
+    #return render(request, 'users/help_support.html')
 
 @login_required(login_url='login')
 def settings(request):
