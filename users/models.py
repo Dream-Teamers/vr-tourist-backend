@@ -48,3 +48,12 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', default='profile_pictures/user.png', null=True, blank=True)
     password = models.CharField(max_length=200,null=True)
     password_confirmation = models.CharField(max_length=100,null=True)
+
+
+class HelpSupport(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    question = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    
