@@ -10,9 +10,8 @@ def get_homepage(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('vr_experience.urls')),
-    path('', include('hotels.urls')),
-    path('', include('agencies.urls')),
     path('', include('users.urls')),
+    path('', include()
 
 ]
 
