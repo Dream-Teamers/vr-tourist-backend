@@ -1,68 +1,69 @@
+<!-- templates/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <style>
         .star-rating .fa-star,
         .star-rating .fa-star-o {
             color: #FFD700; /* Gold color for stars */
         }
+        .wrapper{
+            
+            z-index: -999;
+            
+        }
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'home' %}">My Site</a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          {% if user.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i class="fas fa-user"></i> {{ user.username }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a
-                class="dropdown-item"
-                href="{% url 'user-profile' user.username %}"
-                >Profile</a
-              >
-              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-            </div>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register' %}">Register</a>
-          </li>
-          {% endif %}
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul>
+            <li><a href="{% url 'home' %}">Dashboard</a></li>
+            <li><a href="{% url 'book-tour' %}">Book Tour</a></li>
+            <li><a href="{% url 'my-tours' %}">My Tours</a></li>
+            <li><a href="{% url 'vrs' %}">Explore Tours</a></li> <!-- Updated URL -->
+            <li><a href="{% url 'account-settings' %}">Account Settings</a></li>
+            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+            <li><a href="{% url 'help-support' %}">Help and Support</a></li>
+            <li><a href="{% url 'settings' %}">Settings</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'user-profile' user.username %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li class="greeting">Hi, {{ user.username }}</li>
+            {% endif %}
         </ul>
-      </div>
-    </nav>
+    </div>
+    <div class="content">
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+</div>
 
-    {% block content %}
+<script>
+    function toggleMenu() {
+        document.querySelector('.sidebar').classList.toggle('active');
+    }
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    {% endblock %}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  </body>
+</body>
 </html>
