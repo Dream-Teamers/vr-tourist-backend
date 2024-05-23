@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 
+
 class VRExperience(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
@@ -24,11 +25,11 @@ class VRRating(models.Model):
         ('2', '2'),
         ('1', '1')
     )
+    _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    vr_experience = models.ManyToManyField('VRExperience', blank=True,default="ABC")
     value = models.CharField(max_length=200, choices=VOTE_TYPE, default='5')
-    vr_experience = models.ForeignKey(VRExperience  , on_delete=models.CASCADE , default=None)
     comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self) -> str:
         return self.value
