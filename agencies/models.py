@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-
+import datetime
 from django.contrib.auth.models import User
 # Create your models here.
 class TourAgency(models.Model):
@@ -11,7 +11,6 @@ class TourAgency(models.Model):
     rating = models.IntegerField(default=5)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     
     
     def __str__(self) -> str:
