@@ -11,14 +11,16 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from users.forms import UserUpdateForm, HelpSupportForm
+from .forms import CustomUserCreationForm
+from .models import UserAccount
 
 
 
 def registerPage(request):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
     
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -26,13 +28,34 @@ def registerPage(request):
             # username = form.cleaned_data.get('username')
             # password = form.cleaned_data.get('password')
             # user = authenticate(username=username, password=password)
+            role = form.cleaned_data.get('role', 'tourist')
+            UserAccount.objects.create(user=user, role=role)
+            
             login(request, user)
             messages.success(request, 'Account was created')
-            return redirect('login')
+            return redirect('role-dashboard', role=role)
         else:
             messages.error(request, 'Unsuccessful registration. Invalid information.')
 
     return render(request, 'users/register.html', {'form': form})
+
+#
+
+@login_required(login_url='login')
+def tourist_dashboard(request):
+    return render(request, 'users/tourist_dashboard.html')
+
+@login_required(login_url='login')
+def tour_agency_dashboard(request):
+    return render(request, 'users/tour_agency_dashboard.html')
+
+@login_required(login_url='login')
+def hotel_manager_dashboard(request):
+    return render(request, 'users/hotel_manager_dashboard.html')
+
+
+#
+
 
 
 def loginUser(request):
@@ -131,10 +154,6 @@ def help_support(request):
         form = HelpSupportForm()
     return render(request, 'users/help_support.html', {'form': form})
 
-
-
-
-    
     #return render(request, 'users/help_support.html')
 
 @login_required(login_url='login')
@@ -142,7 +161,17 @@ def settings(request):
     return render(request, 'users/settings.html')
 
 
-
+# Role based dashboard
+@login_required(login_url='login')
+def role_dashboard(request, role):
+    if role == 'tourist':
+        return redirect('tourist-dashboard')
+    elif role == 'tour_agency':
+        return redirect('tour-agency-dashboard')
+    elif role == 'hotel':
+        return redirect('hotel-manager-dashboard')
+    else:
+        return redirect('home')
 
 
 

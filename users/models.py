@@ -1,13 +1,28 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
-
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
 # Create your models here.
+# class UserAccount(models.Model):
+#     ROLE_CHOICES = (
+#         ('tourist', 'Tourist'),
+#         ('tour_agency', 'Tour Agent'),
+#         ('hotle', 'Hotel Manger'),
+#     )
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     role = models.CharField(max_length=200, choices=ROLE_CHOICES, default='tourist')
+#     bio = models.TextField(null=True, blank=True)
+#     date_of_birth = models.DateField(null=True, blank=True)
+#     contact_info = models.CharField(max_length=100, null=True, blank=True)
+#     _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
 class UserAccount(models.Model):
     ROLE_CHOICES = (
         ('tourist', 'Tourist'),
         ('tour_agency', 'Tour Agent'),
-        ('hotle', 'Hotel Manger'),
+        ('hotel', 'Hotel Manager'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=200, choices=ROLE_CHOICES, default='tourist')
@@ -15,6 +30,11 @@ class UserAccount(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     contact_info = models.CharField(max_length=100, null=True, blank=True)
     _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.get_role_display()})"
+
+
 
     def __str__(self) -> str:
         return self.role

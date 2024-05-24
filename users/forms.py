@@ -5,21 +5,25 @@ from .models import HelpSupport
 from users.models import UserProfile
 
 
-# class UserRegistrationForm(UserCreationForm):
-#     email = forms.EmailField(required=True)
+class CustomUserCreationForm(UserCreationForm):
+    ROLE_CHOICES = (
+        ('tourist', 'Tourist'),
+        ('tour_agency', 'Tour Agent'),
+        ('hotel', 'Hotel Manager'),
+    )
+    
+    role = forms.ChoiceField(choices=ROLE_CHOICES, required=False, initial='tourist')
 
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email', 'password1', 'password2')
-
-#     def save(self, commit=True):
-#         user = super(UserRegistrationForm, self).save(commit=False)
-#         user.email = self.cleaned_data['email']
-#         user.username = self.cleaned_data['username'].lower()
-        
-#         if commit:
-#             user.save()
-#         return user
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2', 'role']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'role': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(label="Username", max_length=30,

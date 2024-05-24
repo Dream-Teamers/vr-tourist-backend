@@ -11,6 +11,12 @@ urlpatterns = [
     path('home/', views.get_homepage, name="home"),
     path('profiles/edit/<str:username>/', views.editProfile, name="edit-profile"),
     
+    #Role based redirection
+    path('tourist-dashboard/', views.tourist_dashboard, name="tourist-dashboard"),
+    path('tour-agency-dashboard/', views.tour_agency_dashboard, name="tour-agency-dashboard"),
+    path('hotel-manager-dashboard/', views.hotel_manager_dashboard, name="hotel-manager-dashboard"),
+
+
     path('book-tour/', views.book_tour, name="book-tour"),
     path('my-tours/', views.my_tours, name="my-tours"),
     path('explore-tours/', views.explore_tours, name="explore-tours"),
