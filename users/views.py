@@ -16,6 +16,28 @@ from .models import UserAccount
 
 
 
+# def registerPage(request):
+#     form = CustomUserCreationForm()
+    
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.username = user.username.lower()
+#             user.save()
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             role = form.cleaned_data.get('role', 'tourist')
+#             UserAccount.objects.create(user=user, role=role)
+            
+#             login(request, user)
+#             messages.success(request, 'Account was created')
+#             return redirect('login')
+#         else:
+#             messages.error(request, 'Unsuccessful registration. Invalid information.')
+
+#     return render(request, 'users/register.html', {'form': form})
 def registerPage(request):
     form = CustomUserCreationForm()
     
@@ -25,9 +47,9 @@ def registerPage(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
-            # username = form.cleaned_data.get('username')
-            # password = form.cleaned_data.get('password')
-            # user = authenticate(username=username, password=password)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
             role = form.cleaned_data.get('role', 'tourist')
             UserAccount.objects.create(user=user, role=role)
             
@@ -80,8 +102,18 @@ def loginUser(request):
         if user is not None:
             
             login(request, user)
+            user_account = request.user.useraccount
             # next_url = request.GET.get('next', 'home')
-            return redirect('home')
+            if user_account.role == 'tourist':
+                return redirect('home')
+            elif user_account.role == 'tour_agency':
+                return redirect('agencies')
+            elif user_account.role == 'admin':
+                return redirect('admin')
+            elif user_account.role == 'hotel':
+                return redirect('hotels')
+            else:
+                return redirect('vrs')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -100,11 +132,6 @@ def userProfile(request, username):
     profile = get_object_or_404(User, username=username)
     context = {'profile': profile,}
     return render(request, 'users/profiles.html', context)
-
-@login_required(login_url='login')
-def get_homepage(request):
-    return render(request, 'users/home.html')
-
 
 
 @login_required(login_url='login')
@@ -178,7 +205,13 @@ def role_dashboard(request, role):
 
 
 
-
+@login_required(login_url='login')
+def home(request):
+    user_account = request.user.useraccount
+    context = {
+        'user_role': user_account.role
+    }
+    return render(request, 'users/home.html', context)
 
 
 
