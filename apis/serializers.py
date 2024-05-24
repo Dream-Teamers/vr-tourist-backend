@@ -13,3 +13,9 @@ class HotelSerializer(ModelSerializer):
     class Meta:
         model = Hotel
         fields = '__all__'
+        
+
+class UserAccountSerializer(ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields = ['username',]
