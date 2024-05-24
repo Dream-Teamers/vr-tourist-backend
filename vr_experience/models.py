@@ -39,5 +39,5 @@ class Tag(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     
-    def __str__(self) -> str:
-        return self.name
+    # def __str__(self) -> str:
+    #     return self.name

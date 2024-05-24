@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import VRForm, RatingForm
-from .models import VRExperience
+from .models import VRExperience, Tag
 
 def vr_experiences(request):
     vrs = VRExperience.objects.all()
     message = "VR Experience"
+    
     context = {
         'vrs': vrs,
         'message': message,
