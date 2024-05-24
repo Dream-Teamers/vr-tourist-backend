@@ -7,4 +7,5 @@ urlpatterns = [
     path('vrs/', views.getVRs),
     path('vr/<str:pk>/', views.getVR),
     path('hotels/', views.getHotels),
+    path('hotel/<str:pk>/', views.getHotel),
 ]

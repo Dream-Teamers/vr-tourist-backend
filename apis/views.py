@@ -32,7 +32,6 @@ def getVRs(request):
 @api_view(['GET'])
 def getVR(request, pk):
     vr = VRExperience.objects.get(title=pk)
-    print(vr)
     serialized = VRSerializer(vr)
     return Response(serialized.data)
 
@@ -40,4 +39,11 @@ def getVR(request, pk):
 def getHotels(request):
     hotels = Hotel.objects.all()
     serialized = HotelSerializer(hotels, many=True)
+    return Response(serialized.data)
+
+@api_view(['GET'])
+def getHotel(request, pk):
+    hotel = Hotel.objects.get(name = pk)
+    print(hotel)
+    serialized = HotelSerializer(hotel, many=True)
     return Response(serialized.data)
