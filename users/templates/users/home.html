@@ -26,7 +26,24 @@
             </ul>
         </div>
     </nav> -->
-    
+   
+        {% if user_role == 'tour_agency' %}
+        <div>
+            <h2>Admin Section</h2>
+            <p>This content is visible only to admin users.</p>
+        </div>
+    {% elif user_role == 'tourist' %}
+        <div>
+            <h2>Member Section</h2>
+            <p>This content is visible only to members.</p>
+        </div>
+    {% else %}
+        <div>
+            <h2>Guest Section</h2>
+            <p>This content is visible only to guest users.</p>
+        </div>
+    {% endif %}
+  
     <div class="container mt-4">
         <h1>Welcome to the Home Page</h1>
         {% if user.is_authenticated %}
