@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from .forms import VRForm, RatingForm
 from .models import Tour, TourAgency, TourBooking, TourReview
+from django.contrib.auth.decorators import login_required
+
 
 def agenciesPage(request):
     agencies = TourAgency.objects.all()
@@ -24,3 +26,6 @@ def agencyPage(request,pk):
     }
     return render(request, 'agencies/single-agency.html', context)
 
+@login_required(login_url='login')
+def tour_agency_dashboard(request):
+    return render(request, 'agencies/tour_agency_dashboard.html')

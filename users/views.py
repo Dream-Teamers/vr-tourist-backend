@@ -16,67 +16,33 @@ from .models import UserAccount
 
 
 
-# def registerPage(request):
-#     form = CustomUserCreationForm()
-    
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.username = user.username.lower()
-#             user.save()
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             role = form.cleaned_data.get('role', 'tourist')
-#             UserAccount.objects.create(user=user, role=role)
-            
-#             login(request, user)
-#             messages.success(request, 'Account was created')
-#             return redirect('login')
-#         else:
-#             messages.error(request, 'Unsuccessful registration. Invalid information.')
 
-#     return render(request, 'users/register.html', {'form': form})
 def registerPage(request):
     form = CustomUserCreationForm()
     
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            role = form.cleaned_data.get('role', 'tourist')
-            UserAccount.objects.create(user=user, role=role)
-            
-            login(request, user)
-            messages.success(request, 'Account was created')
-            return redirect('role-dashboard', role=role)
+            username = form.cleaned_data.get('username').lower()
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+            else:
+                user = form.save(commit=False)
+                user.username = username
+                user.save()
+                
+                # Create UserAccount instance with selected role
+                if not UserAccount.objects.filter(user=user).exists():
+
+                    role = form.cleaned_data.get('role', 'tourist')
+                    UserAccount.objects.create(user=user, role=role)
+                    
+                messages.success(request, 'Account was created. Please log in.')
+                return redirect('login')
         else:
             messages.error(request, 'Unsuccessful registration. Invalid information.')
 
     return render(request, 'users/register.html', {'form': form})
-
-#
-
-@login_required(login_url='login')
-def tourist_dashboard(request):
-    return render(request, 'users/tourist_dashboard.html')
-
-@login_required(login_url='login')
-def tour_agency_dashboard(request):
-    return render(request, 'users/tour_agency_dashboard.html')
-
-@login_required(login_url='login')
-def hotel_manager_dashboard(request):
-    return render(request, 'users/hotel_manager_dashboard.html')
-
-
-#
 
 
 
@@ -89,7 +55,7 @@ def loginUser(request):
 
         try:
             user = User.objects.get(username=username)
-        except User.DoesNotExist as e:
+        except User.DoesNotExist:
             messages.error(request, 'Username does not exist')
             return redirect('login')
 
@@ -107,11 +73,11 @@ def loginUser(request):
             if user_account.role == 'tourist':
                 return redirect('home')
             elif user_account.role == 'tour_agency':
-                return redirect('agencies')
+                return redirect('tour-agency-dashboard')
             elif user_account.role == 'admin':
-                return redirect('admin')
+                return redirect('admin-dashboard')
             elif user_account.role == 'hotel':
-                return redirect('hotels')
+                return redirect('hotel-manager-dashboard')
             else:
                 return redirect('vrs')
         else:
@@ -124,6 +90,18 @@ def logoutUser(request):
     logout(request)
     messages.info(request, 'User was logged out!')
     return redirect('login')
+
+
+
+@login_required(login_url='login')
+def tourist_dashboard(request):
+    return render(request, 'users/tourist_dashboard.html')
+
+@login_required(login_url='login')
+def admin_dashboard(request):
+    return render(request, 'users/admin_dashboard.html')
+
+
 
 
 @login_required(login_url='login')

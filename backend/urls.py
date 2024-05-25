@@ -13,7 +13,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('hotels.urls')),
     path('', include('agencies.urls')),
-    path('api/', include('apis.urls'))
+    path('api/', include('apis.urls')),
 
 ]
 
