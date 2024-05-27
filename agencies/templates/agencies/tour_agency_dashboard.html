@@ -1,10 +1,43 @@
-{% extends 'base.html' %}
 
-{% block title %}Tour Agency Dashboard{% endblock %}
+
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Welcome to the Tour Agency Dashboard</h1>
-    <!-- Add content specific to tour agents here -->
+<h1>Tour Agency Dashboard</h1>
+
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul>
+            <li class="greeting">Hi, {{ user.username }}</li>
+            <li><a href="{% url 'tour-agency-dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'add-hotel-listing' %}">Add Hotel Listing</a></li>
+            <li><a href="{% url 'update-hotel-listing' %}">Update Hotel Listing</a></li> <!-- Updated URL -->
+            <li><a href="{% url 'delete-hotel-listing' %}">Delete Hotel Listing</a></li>
+            <li><a href="{% url 'manage-hotel-reviews' %}">Delete Hotel Listing</a></li>
+            <li><a href="{% url 'notifications' %}">Notifications</a></li>
+            <li><a href="{% url 'help-support' %}">Help and Support</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'user-profile' user.username %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                
+            {% endif %}
+        </ul>
+    </div>
+    <div class="content">
+        {% block dashboard_content %}
+        {% endblock dashboard_content %}
+        
+    </div>
 </div>
 {% endblock %}
+
+
+
+
+
+
+

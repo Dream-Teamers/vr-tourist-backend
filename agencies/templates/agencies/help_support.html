@@ -1,0 +1,26 @@
+<!-- templates/help_support.html -->
+{% extends 'base.html' %}
+
+{% block title %}Help and Support{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Help and Support</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_name">Name:</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_question">Question:</label>
+            {{ form.question }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
