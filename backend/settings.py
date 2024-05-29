@@ -85,6 +85,9 @@ DATABASES = {
 }
 
 
+
+ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost', '127.0.0.1']
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',

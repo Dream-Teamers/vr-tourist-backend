@@ -32,12 +32,15 @@ class UserAccount(models.Model):
         ('hotel', 'Hotel Manager'),
         ('admin', 'System Administrator'),
     )
+    
+    deleted = models.BooleanField(default=False, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     role = models.CharField(max_length=200, choices=ROLE_CHOICES, default='tourist')
-    #bio = models.TextField(null=True, blank=True)
-    #date_of_birth = models.DateField(null=True, blank=True)
-    #contact_info = models.CharField(max_length=100, null=True, blank=True)
-    #_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    bio = models.TextField(null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    contact_info = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"

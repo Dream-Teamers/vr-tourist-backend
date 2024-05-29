@@ -5,7 +5,7 @@ from .models import VRExperience, VRRating
 class VRForm(ModelForm):
     class Meta:
         model = VRExperience
-        fields = ['title','description','duration','price'] 
+        fields = ['title','description','price'] 
 
         
 class RatingForm(ModelForm):
