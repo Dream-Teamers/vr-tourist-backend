@@ -8,10 +8,13 @@ class VRForm(ModelForm):
         fields = ['title','description','price'] 
 
         
-class RatingForm(ModelForm):
+class RatingForm(forms.ModelForm):
     class Meta:
         model = VRRating
-        fields = ['value','comment']
+        fields = ['value', 'comment']
+        widgets = {
+            'value': forms.RadioSelect(choices=VRRating.VOTE_TYPE),
+        }
 
 class VRBookingForm(forms.ModelForm):
     class Meta:
