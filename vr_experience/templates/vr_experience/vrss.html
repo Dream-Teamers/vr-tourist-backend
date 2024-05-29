@@ -27,7 +27,6 @@
                     <p class="card-text">{{ tag.name|truncatewords:20 }}</p>
                     {% endfor %}
                     <p class="card-text">{{ vr.description|truncatewords:20 }}</p>
-                    <p class="card-text"><small class="text-muted">Duration: {{ vr.duration }} mins</small></p>
                     <p class="card-text"><small class="text-muted">Price: ${{ vr.price }}</small></p>
                     <a href="{% url 'single-vr' vr.title %}" class="btn btn-primary">View Details</a>
                 </div>

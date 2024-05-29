@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import User
 
+
 class VRExperience(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
@@ -12,7 +13,6 @@ class VRExperience(models.Model):
     locations = models.TextField(null=True, blank=True)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self) -> str:
         return self.title
@@ -25,6 +25,7 @@ class VRRating(models.Model):
         ('2', '2'),
         ('1', '1')
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     vr_experience = models.ForeignKey(VRExperience, on_delete=models.CASCADE)
     value = models.CharField(max_length=200, choices=VOTE_TYPE, default='5')
     comment = models.TextField(null=True, blank=True)
@@ -36,13 +37,6 @@ class VRRating(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
-    _id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     
-    def __str__(self) -> str:
-        return self.name
-    
-    
-class VRBooking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    vr_experience = models.ForeignKey(VRExperience, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
+    # def __str__(self) -> str:
+    #     return self.name

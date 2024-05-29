@@ -34,6 +34,7 @@
         {% endfor %}
     </div>
     <a href="{% url 'update-vr' vr.title %}" class="btn btn-success mt-4">Update VR</a>
+    <a href="{% url 'delete-vr' vr.title %}" class="btn btn-danger mt-4">Delete VR</a>
     <main class="container my-5">
       <div class="row justify-content-center">
           <div class="col-md-6">
@@ -50,7 +51,7 @@
                       </div>
                       {% endfor %}
                   </div>
-                  <button type="submit" class="button is-primary">Submit</button>
+                  <a href="{% url 'rate-vr' vr.title %}" class="btn btn-primary"> Rate</a>
               </form>
               </div>
           </div>

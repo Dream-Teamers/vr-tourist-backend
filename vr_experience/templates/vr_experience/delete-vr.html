@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Delete VR Experience</h2>
+  <p>Are you sure you want to delete "{{ vr.title }}"?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-danger mt-4" type="submit">Confirm</button>
+    <a class="btn btn-primary mt-4" href="{% url 'vrs' %}">Cancel</a>
+  </form>
+{% endblock %}

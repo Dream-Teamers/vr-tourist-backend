@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse
 from .forms import VRForm, RatingForm
-from .models import VRExperience, Tag
-
+from .models import VRExperience, Tag, VRRating
+from django.contrib.auth.models import User
 def vr_experiences(request):
     vrs = VRExperience.objects.all()
     message = "VR Experience"
@@ -51,3 +51,24 @@ def updateVR(request, title):
     }
     return render(request, 'vr_experience/vr_form.html', context)
 
+def deleteVR(request, title):
+    vr = VRExperience.objects.get(title=title)
+    
+    if request.method == "POST":
+        vr.delete()
+        return redirect('vrs')
+    
+    context = {
+        'vr': vr
+    }
+    return render(request, 'vr_experience/delete-vr.html', context)
+
+
+def rateVR(request, pk):
+    user = User.objects.get(username=request.user.username)
+   
+    vr_experience = VRExperience.objects.get(title=pk)
+    comment = request.POST.get('comment')
+    value = request.POST.get('value')
+    rating = VRRating.objects.create(user=user, vr_experience=vr_experience, comment=comment, value=value)
+    return redirect('vrs')

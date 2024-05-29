@@ -19,7 +19,6 @@ from .models import User
 #     bio = models.TextField(null=True, blank=True)
 #     date_of_birth = models.DateField(null=True, blank=True)
 #     contact_info = models.CharField(max_length=100, null=True, blank=True)
-#     _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 #     def __str__(self):
 #         return f"{self.user.username} - {self.role}"
