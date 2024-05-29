@@ -70,13 +70,29 @@ def deleteVR(request, title):
     return render(request, 'vr_experience/delete-vr.html', context)
 
 
-def rateVR(request, pk):
-    user = User.objects.get(username=request.user.username)
-   
-    vr_experience = VRExperience.objects.get(title=pk)
-    comment = request.POST.get('comment')
-    value = request.POST.get('value')
-    rating = VRRating.objects.create(user=user, vr_experience=vr_experience, comment=comment, value=value)
+def rateVR(request, title):
+    vr_experience = get_object_or_404(VRExperience, title=title)
+    user = request.user
+
+    if request.method == "POST":
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.vr_experience = vr_experience
+            rating.user = user
+            rating.save()
+            return redirect('vrs')  # Or redirect to a page showing the VR experience details
+    else:
+        form = RatingForm()
+
+    context = {
+        'form': form,
+        'vr_experience': vr_experience
+    }
+    return render(request, 'vr_experience/rate-vr.html', context)
+
+
+
 def book_vr_experience(request, pk):
     vr_experience = get_object_or_404(VRExperience, title=pk)
     user = User.objects.get(username=request.user.username)
