@@ -6,6 +6,7 @@ import uuid
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    deleted = models.BooleanField(default=False, editable=False)
     tags = models.ManyToManyField('Tag', blank=True)
     rating = models.IntegerField(default=5)
     locations = models.TextField(null=True, blank=True)

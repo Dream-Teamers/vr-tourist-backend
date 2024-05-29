@@ -50,3 +50,4 @@ def updateVR(request, title):
         'form': form
     }
     return render(request, 'vr_experience/vr_form.html', context)
+

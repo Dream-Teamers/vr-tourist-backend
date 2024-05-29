@@ -24,6 +24,8 @@ urlpatterns = [
     path('settings/', views.settings, name="settings"),
 
 
+    
+
     # path('account/', views.userAccount, name="account"),
 
     #path('edit-account/', views.editAccount, name="edit-account"),
@@ -36,3 +38,4 @@ urlpatterns = [
     # path('message/<str:pk>/', views.viewMessage, name="message"),
     # path('create-message/<str:pk>/', views.createMessage, name="create-message"),
 ]
+

@@ -7,6 +7,7 @@ class TourAgency(models.Model):
     name = models.CharField(max_length=255)
     contact_info = models.CharField(max_length=100)
     description = models.TextField()
+    deleted = models.BooleanField(default=False, editable=False)
     tags = models.ManyToManyField('Tag', blank=True)
     rating = models.IntegerField(default=5)
     image_url = models.CharField(max_length=2000, null=True, blank=True)

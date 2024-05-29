@@ -14,10 +14,10 @@
         <ul>
             <li class="greeting">Hi, {{ user.username }}</li>
             <li><a href="{% url 'tour-agency-dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'add-hotel-listing' %}">Add Hotel Listing</a></li>
-            <li><a href="{% url 'update-hotel-listing' %}">Update Hotel Listing</a></li> <!-- Updated URL -->
-            <li><a href="{% url 'delete-hotel-listing' %}">Delete Hotel Listing</a></li>
-            <li><a href="{% url 'manage-hotel-reviews' %}">Delete Hotel Listing</a></li>
+            <li><a href="{% url 'add-tour-package' %}">Add Package Listing</a></li>
+            <li><a href="{% url 'update-tour-package' %}">Update Package Listing</a></li> <!-- Updated URL -->
+            <li><a href="{% url 'view-tour-package' %}">Delete Package Listing</a></li>
+            <li><a href="{% url 'manage-package-reviews' %}">Manage Package Review</a></li>
             <li><a href="{% url 'notifications' %}">Notifications</a></li>
             <li><a href="{% url 'help-support' %}">Help and Support</a></li>
             {% if user.is_authenticated %}

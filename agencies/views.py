@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from .models import Tour, TourAgency, TourBooking, TourReview
 from django.contrib.auth.decorators import login_required
 from users.forms import UserUpdateForm, HelpSupportForm
-
+from django.contrib import messages
 def agenciesPage(request):
     agencies = TourAgency.objects.all()
     message = "Agencies"
@@ -65,3 +65,16 @@ def help_support(request):
     else:
         form = HelpSupportForm()
     return render(request, 'agencies/help_support.html', {'form': form})
+
+def editProfile(request, username):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('user-profile', username=request.user.username)
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    context = {'form': form}
+    return render(request, 'agencies/edit_profile.html', context)
