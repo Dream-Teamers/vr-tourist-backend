@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from .forms import VRForm, RatingForm
-from .models import VRExperience, Tag
+from .forms import VRBookingForm, VRForm, RatingForm
+from .models import VRExperience, Tag, VRBooking
+from django.contrib.auth.models import User
 
 def vr_experiences(request):
     vrs = VRExperience.objects.all()
@@ -51,3 +52,15 @@ def updateVR(request, title):
     }
     return render(request, 'vr_experience/vr_form.html', context)
 
+def book_vr_experience(request, pk):
+    vr_experience = get_object_or_404(VRExperience, title=pk)
+    user = User.objects.get(username=request.user.username)
+    print(user)
+    # if VRBooking.objects.filter(user=request.user, vr_experience=vr_experience).exists():
+    #     messages.warning(request, 'You have already booked this VR experience.')
+    # else:
+    #     VRBooking.objects.create(user=request.user, vr_experience=vr_experience)
+    #     messages.success(request, 'Successfully booked the VR experience!')
+    booking = VRBooking.objects.create(user=user, vr_experience=vr_experience)
+    
+    return redirect('vrs')

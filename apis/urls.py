@@ -29,6 +29,6 @@ urlpatterns = [
     
     # login path
     
-    path('login/', views.login)
+    #path('login/', views.login)
     
 ]

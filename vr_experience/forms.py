@@ -1,6 +1,6 @@
 from django.forms import ModelForm
-from .models import VRExperience, VRRating
-
+from .models import VRExperience, VRRating, VRBooking, VRBooking
+from django import forms
 
 class VRForm(ModelForm):
     class Meta:
@@ -12,3 +12,8 @@ class RatingForm(ModelForm):
     class Meta:
         model = VRRating
         fields = ['value','comment']
+
+class VRBookingForm(forms.ModelForm):
+    class Meta:
+        model = VRBooking
+        fields = ['user','vr_experience']
