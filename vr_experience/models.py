@@ -31,8 +31,8 @@ class VRRating(models.Model):
     comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return self.value
+    def __str__(self):
+        return f"{self.user.username} - {self.value}"
     
 class Tag(models.Model):
     name = models.CharField(max_length=200)
