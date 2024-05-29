@@ -1,17 +1,14 @@
-<<<<<<< HEAD
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse
 from .forms import VRForm, RatingForm
 from .models import VRExperience, Tag, VRRating
 from django.contrib.auth.models import User
-=======
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .forms import VRBookingForm, VRForm, RatingForm
 from .models import VRExperience, Tag, VRBooking
 from django.contrib.auth.models import User
 
->>>>>>> 8152f80dd7746a70a0bc8554567d2ed745ebbfc0
 def vr_experiences(request):
     vrs = VRExperience.objects.all()
     message = "VR Experience"
@@ -60,7 +57,6 @@ def updateVR(request, title):
     }
     return render(request, 'vr_experience/vr_form.html', context)
 
-<<<<<<< HEAD
 def deleteVR(request, title):
     vr = VRExperience.objects.get(title=title)
     
@@ -81,7 +77,6 @@ def rateVR(request, pk):
     comment = request.POST.get('comment')
     value = request.POST.get('value')
     rating = VRRating.objects.create(user=user, vr_experience=vr_experience, comment=comment, value=value)
-=======
 def book_vr_experience(request, pk):
     vr_experience = get_object_or_404(VRExperience, title=pk)
     user = User.objects.get(username=request.user.username)
@@ -93,5 +88,4 @@ def book_vr_experience(request, pk):
     #     messages.success(request, 'Successfully booked the VR experience!')
     booking = VRBooking.objects.create(user=user, vr_experience=vr_experience)
     
->>>>>>> 8152f80dd7746a70a0bc8554567d2ed745ebbfc0
     return redirect('vrs')
