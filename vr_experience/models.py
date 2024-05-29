@@ -27,7 +27,7 @@ class VRRating(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     vr_experience = models.ForeignKey(VRExperience, on_delete=models.CASCADE)
-    value = models.CharField(max_length=200, choices=VOTE_TYPE, default='5')
+    value = models.CharField(max_length=200, choices=VOTE_TYPE, blank=True)
     comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -40,3 +40,8 @@ class Tag(models.Model):
     
     # def __str__(self) -> str:
     #     return self.name
+    
+class VRBooking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vr_experience = models.ForeignKey(VRExperience, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
