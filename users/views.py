@@ -37,7 +37,7 @@ def registerPage(request):
                     role = form.cleaned_data.get('role', 'tourist')
                     UserAccount.objects.create(user=user, role=role)
                     
-                messages.success(request, 'Account was created. Please log in.')
+                messages.success(request, f'Account was created. Please log in.')
                 return redirect('login')
         else:
             messages.error(request, 'Unsuccessful registration. Invalid information.')

@@ -93,7 +93,7 @@ def rateVR(request, title):
 
 
 
-def book_vr_experience(request, pk):
+def bookVR(request, pk):
     vr_experience = get_object_or_404(VRExperience, title=pk)
     user = User.objects.get(username=request.user.username)
     print(user)

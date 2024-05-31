@@ -7,6 +7,6 @@ urlpatterns = [
     path('create-vr/', views.createVR, name='create-vr'),
     path('update-vr/<str:title>/', views.updateVR, name='update-vr'),
     path('rate-vr/<str:title>/', views.rateVR, name='rate-vr'),
-    path('delete/<str:title>/', views.deleteVR, name='delete-vr'),
-    path('book-vr/<str:pk>/', views.book_vr_experience, name='book_vr_experience'),
+    path('delete-vr/<str:title>/', views.deleteVR, name='delete-vr'),
+    path('book-vr/<str:pk>/', views.bookVR, name='book-vr'),
 ]

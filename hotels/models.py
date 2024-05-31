@@ -6,9 +6,8 @@ import uuid
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    deleted = models.BooleanField(default=False, editable=False)
     tags = models.ManyToManyField('Tag', blank=True)
-    rating = models.IntegerField(default=5)
+    # rating = models.IntegerField(default=5)
     locations = models.TextField(null=True, blank=True)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -37,9 +36,9 @@ class RoomReview(models.Model):
     rating = models.PositiveIntegerField()
     comment = models.TextField()
 
-class RoomImage(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    image_url = models.URLField()
+# class RoomImage(models.Model):
+#     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+#     image_url = models.URLField()
     
 class Tag(models.Model):
     name = models.CharField(max_length=200)
