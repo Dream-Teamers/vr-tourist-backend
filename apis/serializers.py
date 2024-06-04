@@ -18,14 +18,23 @@ class HotelSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-
+        fields = ['username',  'email','first_name', 'last_name']
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            email=validated_data['email'],
+            
+        )
+        UserAccount.objects.create(user=user, role='role')
+        return user
         
 class UserAccountSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserAccount
-        fields = '__all__' 
+        fields = ['user', 'bio', 'date_of_birth', 'phone_number']
+   
         
 class TourAgencySerializer(ModelSerializer):
     class Meta:

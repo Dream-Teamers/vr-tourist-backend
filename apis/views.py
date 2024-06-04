@@ -30,7 +30,13 @@ def getRoutes(request):
         'GET /api/rooms',
         'GET /api/room/:id',
         'GET /api/users',
-        'GET /api/user/:id'
+        'GET /api/user/:id',
+        'GET /api/register/',
+        'POST /api/register/',
+        'POST /api/login/',
+        'POST /api/edit-profile/',
+        'GET /api/edit-profile/',
+        'GET /api/logout/',
     ]
     return Response(routes)
 
@@ -42,10 +48,32 @@ def getUsers(request):
 
 @api_view(['GET'])
 def getUser(request, pk):
-    user = UserAccount.objects.get(user=pk)
+    user = User.objects.get(username=pk)
+    user = UserAccount.objects.get(user=user.id)
     serialized = UserAccountSerializer(user)
     return Response(serialized.data)
 
+@api_view(['POST'])
+def register(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            print(serializer.data)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response("Hello, world!")
+
+
+@api_view(['POST'])
+def editProfile(request):
+    user = User.objects.get(username=request.user.username)
+    user = UserAccount.objects.get(user=user.id)
+    serializer = UserAccountSerializer(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def getVRs(request):
@@ -128,3 +156,4 @@ class LoginAPI(APIView):
             return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+

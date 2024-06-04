@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import HelpSupport
-from users.models import UserProfile
+from users.models import UserProfile, UserAccount
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -36,6 +36,13 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['email', 'first_name', 'last_name']
 
+
+class UserAccountUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserAccount
+        fields = ['date_of_birth', 'phone_number', 'bio']
+        
+        
 class HelpSupportForm(forms.ModelForm):
     class Meta:
         model = HelpSupport

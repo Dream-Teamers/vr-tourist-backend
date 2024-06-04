@@ -12,7 +12,8 @@
         <h1>Edit Profile</h1>
         <form method="POST" action="">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ user_form.as_p }}
+            {{ user_account_form.as_p }}
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
         <a href="{% url 'user-profile' request.user.username %}" class="btn btn-secondary mt-3">Cancel</a>

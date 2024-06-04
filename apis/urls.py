@@ -27,6 +27,7 @@ urlpatterns = [
     path('user/<str:pk>/', views.getUser),
     
     
+    path('register/', views.register),
     # login path
     
     #path('login/', views.login)
