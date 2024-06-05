@@ -92,7 +92,7 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     messages.info(request, 'User was logged out!')
-    return redirect('login')
+    return redirect('home')
 
 
 
@@ -186,9 +186,6 @@ def role_dashboard(request, role):
         return redirect('hotel-manager-dashboard')
     else:
         return redirect('home')
-
-
-
 
 
 

@@ -12,6 +12,7 @@ class Hotel(models.Model):
     locations = models.TextField(null=True, blank=True)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    # rooms = models.ManyToManyField('Room', blank=True)
     
     def __str__(self) -> str:
         return self.name
