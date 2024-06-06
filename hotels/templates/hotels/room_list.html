@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Rooms</h2>
+  <a href="{% url 'room_create' %}" class="btn btn-primary">Add Room</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Room Number</th>
+        <th>Room Type</th>
+        <th>Price Per Night</th>
+        <th>Availability</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for room in rooms %}
+      <tr>
+        <td>{{ room.room_number }}</td>
+        <td>{{ room.room_type }}</td>
+        <td>{{ room.price_per_night }}</td>
+        <td>{{ room.is_available }}</td>
+        <td>
+          <a href="{% url 'room_detail' room.pk %}" class="btn btn-info">View</a>
+          <a href="{% url 'room_update' room.pk %}" class="btn btn-warning">Edit</a>
+          <form action="{% url 'room_delete' room.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,42 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-      .star-rating .fa-star,
-      .star-rating .fa-star-o {
-          color: #FFD700; /* Gold color for stars */
-      }
-  </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  </head>
-  <body>
-    <div class="container mt-5">
-      <h1>{{hotel.name}}</h1>
-      <hr />
-      <p>{{hotel.description}}</p>
-      <img src="{{hotel.image_url}}" alt="{{hotel.title}}" />
-      <div class="card-text star-rating">
-        {% for i in rating_range %}
-            {% if i <= hotel.rating %}
-                <i class="fas fa-star"></i>
-            {% else %}
-                <i class="far fa-star"></i>
-            {% endif %}
-        {% endfor %}
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ hotel.name }}</h1>
+<img src="{{ hotel.image.url }}" alt="{{ hotel.name }}">
+<p>{{ hotel.description }}</p>
+<h2>Rooms</h2>
+<div class="row">
+    {% for room in rooms %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img class="card-img-top" src="{{ room.image.url }}" alt="{{ room.room_type }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ room.room_type }}</h5>
+                <p class="card-text">Occupancy: {{ room.occupancy }}</p>
+                <p class="card-text">Price: ${{ room.price_per_night }}</p>
+                <p class="card-text">Available: {{ room.availability }}</p>
+                {% if room.availability %}
+                <a href="{% url 'book_room' room.pk %}" class="btn btn-primary">Book Now</a>
+                {% else %}
+                <button class="btn btn-secondary" disabled>Not Available</button>
+                {% endif %}
+                <a href="{% url 'delete-room' room.pk %}" class="btn btn-danger mt-2">Delete Room</a>
+            </div>
+        </div>
     </div>
-    
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  </body>
-</html>
+    {% endfor %}
+</div>
+<a href="{% url 'add_room' hotel.pk %}" class="btn btn-success mt-4">Add Room</a>
+{% endblock %}

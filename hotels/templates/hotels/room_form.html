@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{% if room %}Update Room{% else %}Create Room{% endif %}</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="hotel">Hotel</label>
+      <select id="hotel" name="hotel" class="form-control">
+        {% for hotel in hotels %}
+        <option value="{{ hotel.pk }}" {% if room and room.hotel.pk == hotel.pk %}selected{% endif %}>{{ hotel.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="room_number">Room Number</label>
+      <input type="text" id="room_number" name="room_number" class="form-control" value="{% if room %}{{ room.room_number }}{% endif %}">
+    </div>
+    <div class="form-group">
+      <label for="room_type">Room Type</label>
+      <input type="text" id="room_type" name="room_type" class="form-control" value="{% if room %}{{ room.room_type }}{% endif %}">
+    </div>
+    <div class="form-group">
+      <label for="price_per_night">Price Per Night</label>
+      <input type="number" id="price_per_night" name="price_per_night" class="form-control" step="0.01" value="{% if room %}{{ room.price_per_night }}{% endif %}">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" id="is_available" name="is_available" class="form-check-input" {% if room and room.is_available %}checked{% endif %}>
+      <label for="is_available" class="form-check-label">Is Available</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+{% endblock %}

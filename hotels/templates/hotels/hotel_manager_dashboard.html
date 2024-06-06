@@ -1,43 +1,29 @@
 
 
-
 {% block content %}
-<h1>Hotel Manager Dashboard</h1>
-
-<div class="wrapper">
-    <div class="sidebar">
-        <div class="hamburger-menu" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <ul>
-            <li class="greeting">Hi, {{ user.username }}</li>
-            <li><a href="{% url 'home' %}">Dashboard</a></li>
-            <li><a href="{% url 'add-hotel-listing' %}">Add Hotel Listing</a></li>
-            <li><a href="{% url 'update-hotel-listing' %}">Update Hotel Listing</a></li> <!-- Updated URL -->
-            <li><a href="{% url 'delete-hotel-listing' %}">Delete Hotel Listing</a></li>
-            <li><a href="{% url 'manage-hotel-reviews' %}">Delete Hotel Listing</a></li>
-            <li><a href="{% url 'notifications' %}">Notifications</a></li>
-            <li><a href="{% url 'help-support' %}">Help and Support</a></li>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'user-profile' user.username %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                
-            {% endif %}
-        </ul>
+<h2>Hotel Manager Dashboard</h2>
+<div class="sidebar">
+    <div class="hamburger-menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    <div class="content">
-        {% block dashboard_content %}
-        {% endblock dashboard_content %}
-        
-    </div>
+    <ul>
+        <li class="greeting">Hi, {{ user.username }}</li>
+        <li><a href="{% url 'home' %}">Dashboard</a></li>
+        <li><a href="{% url 'add-hotel-listing' %}">Add Hotel Listing</a></li>
+        <!-- Remove static update and delete links -->
+        {% for hotel in hotels %}
+        <li><a href="{% url 'update-hotel-listing' hotel.pk %}">Update {{ hotel.name }}</a></li>
+        <li><a href="{% url 'delete-hotel-listing' hotel.pk %}">Delete {{ hotel.name }}</a></li>
+        {% endfor %}
+        <li><a href="{% url 'manage-hotel-reviews' %}">Manage Hotel Reviews</a></li>
+        <li><a href="{% url 'notifications' %}">Notifications</a></li>
+        <li><a href="{% url 'help-support' %}">Help and Support</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'user-profile' user.username %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% endif %}
+    </ul>
 </div>
 {% endblock %}
-
-
-
-
-
-
-
