@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class RoomImage(models.Model):
+    image_url = models.ImageField(upload_to='room_images/')
+    # other fields...
+
+# other models...

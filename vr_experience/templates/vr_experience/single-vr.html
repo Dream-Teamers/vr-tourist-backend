@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load social_share %}
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -35,6 +37,8 @@
     </div>
     <a href="{% url 'update-vr' vr.title %}" class="btn btn-success mt-4">Update VR</a>
     <a href="{% url 'delete-vr' vr.title %}" class="btn btn-danger mt-4">Delete VR</a>
+    {% post_to_telegram "New VR: {{ vr.title }}. Check it out!" object_or_url "Post to Telegram" %}
+                    
     <main class="container my-5">
       <div class="row justify-content-center">
           <div class="col-md-6">
