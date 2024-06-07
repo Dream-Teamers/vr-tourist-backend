@@ -43,11 +43,21 @@
             <p>This content is visible only to guest users.</p>
         </div>
     {% endif %}
-  
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Google Sign In</title>
+  </head>
+  <body>
+    
+
     <div class="container mt-4">
         <h1>Welcome to the Home Page</h1>
         {% if user.is_authenticated %}
-            <p>Hello, {{ user.username }}!</p>
+            <p>Hello, {{ user.email }}!</p>
+            <a href="{% url 'logout' %}">Logout</a>
             
         <a href="{% url 'vrs' %}" class="btn btn-primary">Explore Destinations</a>
         {% else %}
@@ -55,3 +65,8 @@
         {% endif %}
     </div>
 {% endblock %}
+  </body>
+  </html>
+
+    
+    

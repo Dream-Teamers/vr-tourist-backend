@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 import uuid
 # Create your models here.
 class Hotel(models.Model):
@@ -12,6 +13,7 @@ class Hotel(models.Model):
     image_url = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='hotel_images/', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    # rooms = models.ManyToManyField('Room', blank=True)
     
     def __str__(self) -> str:
         return self.name

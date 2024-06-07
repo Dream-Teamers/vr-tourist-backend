@@ -10,9 +10,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
-from users.forms import UserUpdateForm, HelpSupportForm
+from users.forms import UserUpdateForm, HelpSupportForm, UserAccountUpdateForm
 from .forms import CustomUserCreationForm
 from .models import UserAccount
+# ### change password for the user
+
+# from django.contrib.auth.models import PasswordChange
 
 
 
@@ -89,7 +92,7 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     messages.info(request, 'User was logged out!')
-    return redirect('login')
+    return redirect('home')
 
 
 
@@ -107,23 +110,29 @@ def admin_dashboard(request):
 @login_required(login_url='login')
 def userProfile(request, username):
     # profile = get_object_or_404(UserProfile, username=username)
-    profile = get_object_or_404(User, username=username)
-    context = {'profile': profile,}
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(UserAccount, user=user.id)
+    context = {'profile': profile,'user': user}
     return render(request, 'users/profiles.html', context)
 
 
 @login_required(login_url='login')
 def editProfile(request, username):
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your profile has been updated!')
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        user_account_form = UserAccountUpdateForm(request.POST, instance=request.user.useraccount)
+        if user_form.is_valid() and user_account_form.is_valid():
+            user = user_form.save()  # Save User form first
+            user_account = user_account_form.save(commit=False)  # Get UserAccount instance without saving
+            user_account.user = user  # Associate the UserAccount instance with the User instance
+            user_account.save()  # Save UserAccount form
             return redirect('user-profile', username=request.user.username)
+        
     else:
-        form = UserUpdateForm(instance=request.user)
-
-    context = {'form': form}
+        user_form = UserUpdateForm(instance=request.user)
+        user_account_form = UserAccountUpdateForm(instance=request.user.useraccount)
+    context = {'user_form': user_form,
+        'user_account_form': user_account_form,}
     return render(request, 'users/edit_profile.html', context)
 
 
@@ -177,9 +186,6 @@ def role_dashboard(request, role):
         return redirect('hotel-manager-dashboard')
     else:
         return redirect('home')
-
-
-
 
 
 

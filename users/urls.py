@@ -8,7 +8,7 @@ urlpatterns = [
 
     #path('', views.profiles, name="profiles"),
     path('profiles/<str:username>/', views.userProfile, name="user-profile"),
-    path('home/', views.home, name="home"),
+    path('', views.home, name="home"),
     path('profiles/edit/<str:username>/', views.editProfile, name="edit-profile"),
     
     #Role based redirection
