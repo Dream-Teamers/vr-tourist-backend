@@ -8,8 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
-
-
+from users.views import *
+from hotels.views import *
+from agencies.views import *
+from vrs.views import *
 
 
 @api_view(['GET'])
