@@ -4,10 +4,13 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
-from apis.serializers import UserSerializer
+from apis.serializers import UserSerializer, UserAccountSerializer
 from django.contrib.auth.models import User
 from .models import UserAccount
+from vrs.models import VRBooking
+from apis.serializers import VRBookingSerializer
 
 
 
@@ -18,7 +21,7 @@ def login(request):
     print(useraccount.role)
     if not user.check_password(request.data['password']):
         return Response({"detail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
-    user_account = request.user.useraccount
+    user_account = useraccount
     token , created= Token.objects.get_or_create(user=user )
     serializer = UserSerializer(instance=user)
     if user_account.role == 'tourist':
@@ -31,7 +34,7 @@ def login(request):
        return Response({"token":token.key, "user":serializer.data, "role":"hotel"})
     else:
         return Response({"token":token.key, "user":serializer.data, "role":"guest"})
-
+    # return Response({"message": "Hello"})
 
 @api_view(['POST'])
 def register(request):
@@ -52,3 +55,33 @@ def register(request):
 def test_token(request):
     return Response("passed for {}".format(request.user.email))
 
+
+# list user bookings
+@api_view(['GET'])
+def listBookings(request):
+    serializer = VRBookingSerializer(VRBooking.objects.filter(user=request.user.id), many=True)
+    print(request.user.id)
+    print(serializer.data)
+    return Response(serializer.data)   
+
+
+
+## user profile view
+@api_view(['GET'])
+def userProfile(request,username):
+    user = User.objects.get(username=username)
+    useraccount = get_object_or_404(UserAccount, user=user.id)
+    serializer = UserSerializer(instance=user)
+    return Response({"user":serializer.data, "role":useraccount.role})
+
+
+class ProfileListCreate(generics.ListCreateAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+    
+    
+class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+    lookup_field = 'pk'
+    

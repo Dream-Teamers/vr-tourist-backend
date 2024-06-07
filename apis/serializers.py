@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from users.models import UserAccount
 from django.contrib.auth.models import User
+from vrs.models import VR, VRRating, VRBooking
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -20,4 +21,23 @@ class UserAccountSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserAccount
-        fields = ['user', 'bio', 'date_of_birth', 'phone_number']
+        fields = ['id', 'user', 'bio', 'date_of_birth', 'phone_number']
+        
+        
+class VRSerializer(ModelSerializer):
+    class Meta:
+        model = VR
+        fields = ['id', 'title', 'description','price', 'tags', 'locations', 'image_url', 'vr_url']
+        
+        
+class VRRatingSerializer(ModelSerializer):
+    class Meta:
+        model = VRRating
+        fields = '__all__'
+        
+        
+# how to create the vr booking serializer class
+class VRBookingSerializer(ModelSerializer):
+    class Meta:
+        model = VRBooking
+        fields = '__all__'

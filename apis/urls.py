@@ -12,10 +12,23 @@ urlpatterns = [
     # login path
     
     #path('login/', views.login)
-    # path('vrs/', views.VRListCreate.as_view(), name='vr-view-create'),
-    # path('vrs/rating/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-rating'),
-    # path('vrs/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-update'),
+    path('vrs/', views.VRListCreate.as_view(), name='vr-view-create'),
+    path('vrs/rating/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-rating'),
+    path('vrs/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-update'),
     
+    
+    # path('vrs/<int:pk>/book/', views.VRBookingRetrieveUpdateDestroy.as_view(), name='vr-booking'),
+    
+    path('bookings/', views.VRBookingListCreate.as_view(), name='vr-booking-view-create'),
+    
+    
+    path('ratings/', views.VRRatingListCreate.as_view(), name='vr-rating-view-create'),
+    
+    path('mybookings/', views.listBookings, name='my-bookings'),
+    
+    # user profile path
+    path('profiles/', views.ProfileListCreate.as_view(), name='profile-view-create'),
+    path('profiles/<int:pk>/', views.ProfileRetrieveUpdateDestroy.as_view(), name='profile-update'),
     
     # path('agencies/', views.TourAgencyListCreate.as_view(), name='agency-view-create'),
     # path('agencies/<int:pk>/', views.TourAgencyRetrieveUpdateDestroy.as_view(), name='agency-update'),

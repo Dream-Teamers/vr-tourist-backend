@@ -2,8 +2,8 @@ POST http://127.0.0.1:8000/api/login/
 Content-Type: application/json
 
 {
-    "username": "mikhe",
-    "password": "mike"
+    "username": "anwar",
+    "password": "anwar"
 }
 
 
@@ -26,32 +26,3 @@ Authorization: Token b183f5f39d3e8074457867745f11cc0896867260
 
 {}
 
-
-### 
-
-GET  http://127.0.0.1:8000/api/vrs/
-Content-Type: application/json
-
-{
-    "title": "Lalibela"
-}
-
-### 
-
-POST  http://127.0.0.1:8000/api/vrs/
-Content-Type: application/json
-
-{
-    "title": "Lalibela"
-}
-
-
-###
-
-POST  http://127.0.0.1:8000/api/bookings/
-Content-Type: application/json
-
-{
-    "user": "3",
-    "vr": "2"
-}
