@@ -29,11 +29,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apis',
-    'db_manager',
-    'hotels',
-    'users',
-    'vr_experience',
-    'agencies',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -102,10 +97,6 @@ DATABASES = {
     }
 }
 
-
-
-ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost', '127.0.0.1']
-CSRF_TRUST_ORIGIN = ['']
 
 # DATABASES = {
 #     'default': {
