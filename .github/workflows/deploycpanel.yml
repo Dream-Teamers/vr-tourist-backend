@@ -1,0 +1,24 @@
+name: Deploy to FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to FTP server
+        uses: lukka/ftp-deploy-action@3
+        with:
+          server: 'server.aiwar365.com'
+          username: 'dreamftp@aiwar365.com'
+          password: '4^sgm{q=Ac10'
+          protocol: 'ftp'
+          local-dir: './'  # Change this to the directory you want to upload
+          server-dir: '/public_html'  # Change this to your target directory on the server
