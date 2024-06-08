@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from users.models import UserAccount
 from django.contrib.auth.models import User
 from vrs.models import VR, VRRating, VRBooking
+from agencies.models import AgencyRating, Tour, TourAgency, TourBooking
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -41,3 +42,26 @@ class VRBookingSerializer(ModelSerializer):
     class Meta:
         model = VRBooking
         fields = '__all__'
+        
+        
+from rest_framework.serializers import ModelSerializer
+
+class TourSerializer(ModelSerializer):
+    class Meta:
+        model = Tour
+        fields = ['id', 'title', 'description', 'price', 'tags', 'locations', 'image_url', 'tour_url']
+
+class AgencyRatingSerializer(ModelSerializer):
+    class Meta:
+        model = AgencyRating
+        fields = '__all__'
+
+class TourBookingSerializer(ModelSerializer):
+    class Meta:
+        model = TourBooking
+        fields = '__all__'
+
+class TourAgencySerializer(ModelSerializer):
+    class Meta:
+        model = TourAgency
+        fields = ['id', 'name', 'description', 'address', 'contact_info', 'tours']

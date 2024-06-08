@@ -15,11 +15,21 @@ urlpatterns = [
     path('vrs/', views.VRListCreate.as_view(), name='vr-view-create'),
     path('vrs/rating/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-rating'),
     path('vrs/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-update'),
+    path('vrs/bookings/', views.VRBookingListCreate.as_view(), name='vr-booking-view-create'),
+    
+    # path for agencies
+    path('agencies/', views.TourAgencyListCreate.as_view(), name='agency-view-create'),
+    path('agencies/<int:pk>/', views.TourAgencyRetrieveUpdateDestroy.as_view(), name='agency-update'),
+    
+    # path for tours
+    path('tours/', views.TourListCreate.as_view(), name='tour-view-create'),
+    path('tours/<int:pk>/', views.TourRetrieveUpdateDestroy.as_view(), name='tour-update'),
+    # path for tour bookings
+    path('tours/bookings/', views.TourBookingListCreate.as_view(), name='tour-booking'),
     
     
     # path('vrs/<int:pk>/book/', views.VRBookingRetrieveUpdateDestroy.as_view(), name='vr-booking'),
     
-    path('bookings/', views.VRBookingListCreate.as_view(), name='vr-booking-view-create'),
     
     
     path('ratings/', views.VRRatingListCreate.as_view(), name='vr-rating-view-create'),
