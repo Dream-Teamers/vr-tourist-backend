@@ -1,24 +1,22 @@
-name: Deploy to FTP
+name: Deploy to cPanel using FTP
 
 on:
   push:
     branches:
-      - deploy
+      - main # Change this to your target branch
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Deploy to FTP server
-        uses: lukka/ftp-deploy-action@3
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
-          server: 'server.aiwar365.com'
-          username: 'dreamftp@aiwar365.com'
-          password: '4^sgm{q=Ac10'
-          protocol: 'ftp'
-          local-dir: './'  # Change this to the directory you want to upload
-          server-dir: '/public_html'  # Change this to your target directory on the server
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./ # Directory to upload from
