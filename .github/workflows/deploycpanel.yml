@@ -3,7 +3,7 @@ name: Deploy to cPanel using FTP
 on:
   push:
     branches:
-      - main # Change this to your target branch
+      - main
 
 jobs:
   deploy:
