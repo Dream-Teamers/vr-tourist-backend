@@ -46,6 +46,30 @@ class VRBookingSerializer(ModelSerializer):
         
         
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
+from .models import Tour, TourAgency, AgencyRating, TourBooking
+
+class TourSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tour
+        fields = ['id', 'title', 'description', 'duration', 'price', 'locations', 'image_url']
+
+class AgencyRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgencyRating
+        fields = '__all__'
+
+class TourBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TourBooking
+        fields = '__all__'
+
+class TourAgencySerializer(serializers.ModelSerializer):
+    tours = TourSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = TourAgency
+        fields = ['id', 'name', 'description', 'contact_info', 'tours']
 
 class TourSerializer(ModelSerializer):
     class Meta:

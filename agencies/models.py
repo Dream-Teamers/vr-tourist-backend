@@ -1,26 +1,27 @@
 from django.db import models
 
+from django.db import models
+
+class TourAgency(models.Model):
+    name = models.CharField(max_length=255)
+    contact_info = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
 class Tour(models.Model):
+    agency = models.ForeignKey(TourAgency, related_name='tours', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
+    duration = models.IntegerField()  # Duration in days
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    tags = models.CharField(max_length=255)
     locations = models.CharField(max_length=255)
     image_url = models.URLField()
-    tour_url = models.URLField()
 
     def __str__(self):
         return self.title
 
-class TourAgency(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    address = models.CharField(max_length=255)
-    contact_info = models.CharField(max_length=255)
-    tours = models.ManyToManyField(Tour, related_name='agencies')
-
-    def __str__(self):
-        return self.name
 
 class AgencyRating(models.Model):
     agency = models.ForeignKey(TourAgency, related_name='ratings', on_delete=models.CASCADE)
