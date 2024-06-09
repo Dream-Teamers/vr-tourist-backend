@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Hotel(models.Model):
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, default=2)
     name = models.CharField(max_length=255)
     address = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)

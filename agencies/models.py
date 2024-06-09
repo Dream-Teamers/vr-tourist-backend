@@ -11,10 +11,10 @@ class TourAgency(models.Model):
         return self.name
 
 class Tour(models.Model):
-    agency = models.ForeignKey(TourAgency, related_name='tours', on_delete=models.CASCADE)
+    agency = models.ForeignKey(TourAgency, related_name='tours', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    duration = models.IntegerField()  # Duration in days
+    duration = models.IntegerField(default=1)  # Duration in days
     price = models.DecimalField(max_digits=10, decimal_places=2)
     locations = models.CharField(max_length=255)
     image_url = models.URLField()
