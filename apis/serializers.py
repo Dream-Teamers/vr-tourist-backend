@@ -140,6 +140,10 @@ class RoomTypeSerializer(ModelSerializer):
 
 class HotelSerializer(ModelSerializer):
     rooms = RoomTypeSerializer(many=True)
+    ## set the admin field to username instead of id
+    
+    admin = UserSerializer()
     class Meta:
         model = Hotel
         fields = ['id', 'admin', 'name', 'address', 'description', 'rating', 'amenities', 'price_per_night', 'rooms', 'image_url']
+    
