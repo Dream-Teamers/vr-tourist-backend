@@ -71,3 +71,20 @@ GET  https://server.aiwar365.com/api/mybookings/
 Content-Type: application/json
 
 {}
+###
+
+PUT  https://server.aiwar365.com/api/users/2/
+Content-Type: application/json
+
+{
+    "user": {
+        "first_name": "Abysinia",
+        "last_name": "",
+        "password": "mike",
+        "email": "abys@dream.com"
+    },
+    "bio": "",
+    "date_of_birth": null,
+    "phone_number": null,
+    "role": "hotel"
+}
