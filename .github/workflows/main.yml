@@ -1,22 +1,18 @@
-name: Publish Website to CPanel
-on:
-  push:
-    branches:
-      - deploy
-        
+on: push
+name: Deploy website on push
 jobs:
-  FTP-Deploy-Action:
-    name: FTP-Deploy-Action
+  web-deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Get latest code
+      uses: actions/checkout@v3
+      
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        fetch-depth: 2
-    - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@4.3.4
-      with: 
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets. FTP_PASSWORD }}
         protocol: ftps
-        server-dir: public_html
+        server-dir: public_html/test-push-ftp/
