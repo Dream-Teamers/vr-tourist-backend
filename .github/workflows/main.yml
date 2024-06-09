@@ -19,4 +19,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets. FTP_PASSWORD }}
           protocol: ftp
-          server-dir: ftpDream
+          server-dir: /home/aiwar3hc/ftpDream
