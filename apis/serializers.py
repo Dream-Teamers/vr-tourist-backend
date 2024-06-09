@@ -5,7 +5,7 @@ from vrs.models import VR, VRRating, VRBooking
 from hotels.models import Hotel, HotelRating, Room, RoomBooking, RoomImage
 from agencies.models import AgencyRating, Tour, TourAgency, TourBooking
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password']
@@ -35,7 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
-class UserAccountSerializer(serializers.ModelSerializer):
+class UserAccountSerializer(ModelSerializer):
     user = UserSerializer()
 
     class Meta:
