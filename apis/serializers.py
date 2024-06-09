@@ -5,25 +5,61 @@ from vrs.models import VR, VRRating, VRBooking
 from hotels.models import Hotel, HotelRating, Room, RoomBooking, RoomImage
 from agencies.models import AgencyRating, Tour, TourAgency, TourBooking
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email']
+        fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             email=validated_data['email'],
-            
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', '')
         )
         UserAccount.objects.create(user=user, role='tourist')
         return user
-        
-class UserAccountSerializer(ModelSerializer):
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        password = validated_data.get('password', None)
+        if password:
+            instance.set_password(password)
+            instance.save()
+
+        return instance
+
+class UserAccountSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
     class Meta:
         model = UserAccount
         fields = ['id', 'user', 'bio', 'date_of_birth', 'phone_number', 'role']
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        user_account = UserAccount.objects.create(user=user, **validated_data)
+        return user_account
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        user = instance.user
+
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.date_of_birth = validated_data.get('date_of_birth', instance.date_of_birth)
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.role = validated_data.get('role', instance.role)
+        instance.save()
+
+        UserSerializer.update(UserSerializer(), instance=user, validated_data=user_data)
+        return instance
         
         
 class VRSerializer(ModelSerializer):
