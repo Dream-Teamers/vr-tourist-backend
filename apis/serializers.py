@@ -61,7 +61,7 @@ class TourBookingSerializer(ModelSerializer):
         fields = '__all__'
 
 class TourAgencySerializer(ModelSerializer):
-    tours = TourSerializer(many=True, read_only=True)
+    tours = TourSerializer(many=True)
 
     class Meta:
         model = TourAgency
@@ -103,7 +103,7 @@ class RoomTypeSerializer(ModelSerializer):
         fields = ['id','room_type']
 
 class HotelSerializer(ModelSerializer):
-    rooms = RoomTypeSerializer(many=True, read_only=True)
+    rooms = RoomTypeSerializer(many=True)
     class Meta:
         model = Hotel
         fields = ['id', 'name', 'address', 'description', 'rating', 'amenities', 'price_per_night', 'rooms', 'image_url']
