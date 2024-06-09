@@ -3,18 +3,20 @@ from django.db import models
 
 # Create your models here.
 class Hotel(models.Model):
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    address = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    tags = models.ManyToManyField('Tag', blank=True)
-    locations = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    amenities = models.TextField(null=True, blank=True)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    rooms = models.ForeignKey('Room', on_delete=models.CASCADE, null=True, blank=True)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
-    hotel_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
     
+
 class HotelRating(models.Model):
     VOTE_TYPE = (
         ('5', '5'),
@@ -41,19 +43,23 @@ class Tag(models.Model):
     
     
 class Room(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    tags = models.ManyToManyField('Tag', blank=True)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     locations = models.TextField(null=True, blank=True)
-    image_url = models.CharField(max_length=2000, null=True, blank=True)
-    room_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title
+
+
+class RoomImage(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    image_url = models.CharField(max_length=2000, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
     
+    
+
 class RoomBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
