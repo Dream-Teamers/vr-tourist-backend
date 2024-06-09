@@ -17,17 +17,17 @@ from vrs.views import *
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        'GET /api/vrs',
+        'GET /api/vrs/',
         'GET /api/vrs/:id',
-        'GET /api/hotels',
+        'GET /api/hotels/',
         'GET /api/hotels/:id',
-        'GET /api/tours',
+        'GET /api/tours/',
         'GET /api/tour/:id',
-        'GET /api/agencies',
+        'GET /api/agencies/',
         'GET /api/agencies/:id',
-        'GET /api/rooms',
+        'GET /api/rooms/',
         'GET /api/rooms/:id',
-        'GET /api/users',
+        'GET /api/users/',
         'GET /api/users/:id',
         'POST /api/register/',
         'POST /api/login/',

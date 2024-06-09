@@ -49,8 +49,8 @@ urlpatterns = [
     
 
     
-    # path('hotels/', views.HotelListCreate.as_view(), name ='hotel-view-create'),
-    # path('hotels/<int:pk>/', views.HotelRetrieveUpdateDestroy.as_view(), name ='hotel-update'),
+    path('hotels/', views.HotelListCreate.as_view(), name ='hotel-view-create'),
+    path('hotels/<int:pk>/', views.HotelRetrieveUpdateDestroy.as_view(), name ='hotel-update'),
     
     
     
