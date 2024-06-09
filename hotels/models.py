@@ -9,7 +9,7 @@ class Hotel(models.Model):
     rating = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     amenities = models.TextField(null=True, blank=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    rooms = models.ForeignKey('Room', on_delete=models.CASCADE, null=True, blank=True)
+    rooms = models.ManyToManyField('Room', related_name='rooms', blank=True)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -43,18 +43,17 @@ class Tag(models.Model):
     
     
 class Room(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField(null=True, blank=True)
-    price_per_night = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    locations = models.TextField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+    room_type = models.CharField(max_length=200, default = 'Single Room')
+    occupancy = models.IntegerField(default=1)  # Set a default value for occupancy
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)    
+    availability = models.BooleanField(default=True)
+    images = models.ForeignKey('RoomImage', on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
-        return self.title
+        return self.room_type
 
 
 class RoomImage(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     
@@ -62,5 +61,5 @@ class RoomImage(models.Model):
 
 class RoomBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    Hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, default=1)
     created = models.DateTimeField(auto_now_add=True)
