@@ -39,7 +39,7 @@ urlpatterns = [
     # user profile path
     path('profiles/', views.ProfileListCreate.as_view(), name='profile-view-create'),
     path('profiles/<int:pk>/', views.ProfileRetrieveUpdateDestroy.as_view(), name='profile-update'),
-    
+    path('users/<str:role>/', views.getUsers),
     # path('agencies/', views.TourAgencyListCreate.as_view(), name='agency-view-create'),
     # path('agencies/<int:pk>/', views.TourAgencyRetrieveUpdateDestroy.as_view(), name='agency-update'),
     
@@ -59,7 +59,7 @@ urlpatterns = [
     
     
     
-    # path('users/', views.getUsers),
+    path('users/', views.getUsers),
     # path('user/<str:pk>/', views.getUser),
     
 ]

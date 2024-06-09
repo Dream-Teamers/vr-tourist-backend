@@ -14,7 +14,7 @@ from apis.serializers import VRBookingSerializer
 
 
 
-@api_view(['POST'])
+@api_view(['POST','GET'])
 def login(request):
     user = get_object_or_404(User, username=request.data['username'])
     useraccount = get_object_or_404(UserAccount, user=user)
@@ -85,3 +85,25 @@ class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserAccountSerializer
     lookup_field = 'pk'
     
+## a view that lists users which have a role of spesific role in the params
+@api_view(['GET'])
+def getUsers(request, role):
+    users = UserAccount.objects.filter(role=role)
+    serializer = UserAccountSerializer(users, many=True)
+    return Response(serializer.data)
+### url path for the above view
+# path('users/<str:role>/', views.getUsers),
+## any necessary changes to the serializers
+# class UserAccountSerializer(ModelSerializer):
+#     user = UserSerializer()
+#     class Meta:
+#         model = UserAccount
+#         fields = ['id', 'user', 'bio', 'date_of_birth', 'phone_number']
+# any necessary changes to the whole system because of the above getUsers view
+# no changes needed
+## a view that returns all users
+@api_view(['GET'])
+def getUsers(request):
+    users = UserAccount.objects.all()
+    serializer = UserAccountSerializer(users, many=True)
+    return Response(serializer.data)

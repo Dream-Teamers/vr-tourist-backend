@@ -16,14 +16,14 @@ class UserSerializer(ModelSerializer):
             email=validated_data['email'],
             
         )
-        UserAccount.objects.create(user=user, role='role')
+        UserAccount.objects.create(user=user, role='tourist')
         return user
         
 class UserAccountSerializer(ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserAccount
-        fields = ['id', 'user', 'bio', 'date_of_birth', 'phone_number']
+        fields = ['id', 'user', 'bio', 'date_of_birth', 'phone_number', 'role']
         
         
 class VRSerializer(ModelSerializer):

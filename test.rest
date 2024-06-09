@@ -1,15 +1,25 @@
-POST http://127.0.0.1:8000/api/login/
+GET https://server.aiwar365.com/api/login/
 Content-Type: application/json
 
 {
-    "username": "mikhe",
+    "username": "fgrfgr",
+    "password": "mike"
+}
+
+
+###
+POST https://server.aiwar365.com/api/login/
+Content-Type: application/json
+
+{
+    "username": "fgrfgr",
     "password": "mike"
 }
 
 
 ###
 
-POST http://127.0.0.1:8000/api/register/
+POST https://server.aiwar365.com/api/register/
 Content-Type: application/json
 
 {
@@ -48,10 +58,16 @@ Content-Type: application/json
 
 ###
 
-POST  http://127.0.0.1:8000/api/bookings/
+POST  https://server.aiwar365.com/api/vrs/bookings/
 Content-Type: application/json
 
 {
     "user": "3",
     "vr": "2"
 }
+###
+
+GET  https://server.aiwar365.com/api/mybookings/
+Content-Type: application/json
+
+{}
