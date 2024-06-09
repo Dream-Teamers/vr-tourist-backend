@@ -8,7 +8,7 @@ from agencies.models import AgencyRating, Tour, TourAgency, TourBooking
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email']
+        fields = ['id', 'first_name', 'last_name', 'email']
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],

@@ -2,8 +2,8 @@ GET https://server.aiwar365.com/api/login/
 Content-Type: application/json
 
 {
-    "username": "anwar",
-    "password": "anwar"
+    "username": "fgrfgr",
+    "password": "mike"
 }
 
 
