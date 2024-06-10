@@ -15,16 +15,15 @@ from apis.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 class VRListCreate(generics.ListCreateAPIView):
     queryset = VR.objects.all()
     serializer_class = VRSerializer
-    
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
     
 class VRRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = VR.objects.all()
     serializer_class = VRSerializer
     lookup_field = 'pk'
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
     
 
 
