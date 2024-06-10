@@ -55,7 +55,11 @@ def register(request):
 def test_token(request):
     return Response("passed for {}".format(request.user.email))
 
-
+## logout view for the user
+@api_view(['GET'])
+def logout(request):
+    request.user.auth_token.delete()
+    return Response({"message": "Logged out successfully"})
 # list user bookings
 @api_view(['GET'])
 def listBookings(request):
@@ -78,11 +82,13 @@ def userProfile(request,username):
 class ProfileListCreate(generics.ListCreateAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
-    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
 class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field = 'pk'
-    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 ## a view that lists users which have a role of spesific role in the params

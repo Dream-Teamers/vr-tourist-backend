@@ -23,7 +23,7 @@ POST https://server.aiwar365.com/api/register/
 Content-Type: application/json
 
 {
-    "username": "fgrfgr","password":"mike", "email": "mike@anwar.com"
+    "username": "dda","password":"mike", "email": "mike@anwar.com"
 }
 
 
@@ -87,4 +87,31 @@ Content-Type: application/json
     "date_of_birth": null,
     "phone_number": null,
     "role": "hotel"
+}
+
+
+### Access protected endpoint
+
+GET https://server.aiwar365.com/api/users/3/
+Content-Type: application/json
+
+{}
+
+PUT https://server.aiwar365.com/api/users/3/
+Content-Type: application/json
+
+{
+    "id": 7,
+    "user": {
+        "id": 7,
+        "first_name": "John",
+        "last_name": "Doef",
+        "email": "john.doe@example.com",
+        "username": "johnny", 
+        "password": "mike"
+    },
+    "bio": "Loves hiking and outdoor activities.",
+    "date_of_birth": "1990-01-01",
+    "phone_number": "123-456-7890",
+    "role": "tourist"
 }
