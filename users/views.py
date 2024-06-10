@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from .models import UserAccount
 from vrs.models import VRBooking
 from apis.serializers import VRBookingSerializer
+from apis.permissions import IsAuthenticatedOrReadOnly
+
 
 
 
@@ -80,15 +82,15 @@ def userProfile(request,username):
 
 
 class ProfileListCreate(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
     
 class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field = 'pk'
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 ## a view that lists users which have a role of spesific role in the params

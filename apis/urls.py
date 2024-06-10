@@ -12,7 +12,6 @@ urlpatterns = [
     path('test_token/', views.test_token),
     # login path
     
-    #path('login/', views.login)
     path('vrs/', views.VRListCreate.as_view(), name='vr-view-create'),
     path('vrs/rating/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-rating'),
     path('vrs/<int:pk>/', views.VRRetrieveUpdateDestroy.as_view(), name='vr-update'),
