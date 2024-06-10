@@ -6,11 +6,23 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
-from apis.serializers import UserSerializer, UserAccountSerializer
+from apis.serializers import UserSerializer, UserAccountSerializer, VRBookingSerializer
 from django.contrib.auth.models import User
 from .models import UserAccount
 from vrs.models import VRBooking
-from apis.serializers import VRBookingSerializer
+
+
+
+@api_view(['POST'])
+def register(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        user.set_password(request.data['password'])
+        user.save()
+        token = Token.objects.create(user=user)
+        return Response({"token": token.key, "user": serializer.data})
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -36,17 +48,6 @@ def login(request):
         return Response({"token":token.key, "user":serializer.data, "role":"guest"})
     # return Response({"message": "Hello"})
 
-@api_view(['POST'])
-def register(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(username=request.data['username'])
-        user.set_password(request.data['password'])
-        user.save()
-        token = Token.objects.create(user=user)
-        return Response({"token":token.key, "user":serializer.data})
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
