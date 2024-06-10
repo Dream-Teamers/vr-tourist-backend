@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from .models import UserAccount
 from vrs.models import VRBooking
 from apis.serializers import VRBookingSerializer
-from apis.permissions import IsAuthenticatedOrReadOnly
+from apis.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
 
 
@@ -58,10 +58,11 @@ def test_token(request):
     return Response("passed for {}".format(request.user.email))
 
 ## logout view for the user
-@api_view(['GET'])
+@api_view(['POST'])
 def logout(request):
-    request.user.auth_token.delete()
-    return Response({"message": "Logged out successfully"})
+    if request.method == 'POST':
+        request.user.auth_token.delete()
+        return Response({"message": "You were Logged out"})
 # list user bookings
 @api_view(['GET'])
 def listBookings(request):
@@ -82,15 +83,28 @@ def userProfile(request,username):
 
 
 class ProfileListCreate(generics.ListCreateAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
-    
-class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUser]
+    
+## permissions.py code for IsAdminUser
+# from rest_framework.permissions import BasePermission
+
+# class IsAdminUser(BasePermission):
+#     """
+#     Custom permission to allow only admin users to access the view.
+#     """
+
+#     def has_permission(self, request, view):
+#         return request.user and request.user.is_authenticated and request.user.useraccount.role == 'admin'
+
+
+class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field = 'pk'
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 ## a view that lists users which have a role of spesific role in the params

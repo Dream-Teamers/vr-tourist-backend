@@ -13,3 +13,12 @@ class IsAuthenticatedOrReadOnly(BasePermission):
             return True
         # Allow write methods for authenticated users only
         return request.user and request.user.is_authenticated
+## permissions.py code for IsAdminUser
+
+class IsAdminUser(BasePermission):
+    """
+    Custom permission to allow only admin users to access the view.
+    """
+
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and request.user.useraccount.role == 'admin'
