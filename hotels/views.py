@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from apis.serializers import HotelSerializer, RoomSerializer
+from apis.serializers import HotelSerializer, RoomSerializer, RoomBookingSerializer
 from rest_framework import generics
 from .models import Hotel, Room, RoomBooking, HotelRating
 # Create your views here.
@@ -23,3 +23,15 @@ class RoomRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     lookup_field = 'pk'
+    
+    
+class RoomBookingListCreate(generics.ListCreateAPIView):
+    queryset = RoomBooking.objects.all()
+    serializer_class = RoomBookingSerializer
+    
+class RoomBookingRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RoomBooking.objects.all()
+    serializer_class = RoomBookingSerializer
+    lookup_field = 'pk'
+    
+    

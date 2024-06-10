@@ -50,29 +50,18 @@ class VRBookingListCreate(generics.ListCreateAPIView):
     queryset = VRBooking.objects.all()
     serializer_class = VRBookingSerializer
     
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
-    
 class VRBookingRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = VRBooking.objects.all()
     serializer_class = VRBookingSerializer
     lookup_field = 'pk'
-    
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
     
     
 class VRRatingListCreate(generics.ListCreateAPIView):
     queryset = VRRating.objects.all()
     serializer_class = VRRatingSerializer
     
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
-    
 class VRRatingRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = VRRating.objects.all()
     serializer_class = VRRatingSerializer
     lookup_field = 'pk'
     
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]

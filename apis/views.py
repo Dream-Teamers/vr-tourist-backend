@@ -18,21 +18,20 @@ from vrs.views import *
 def getRoutes(request):
     routes = [
         'GET /api/vrs/',
-        'GET /api/vrs/:id',
+        'GET /api/vrs/:id/',
         'GET /api/hotels/',
-        'GET /api/hotels/:id',
+        'GET /api/hotels/:id/',
         'GET /api/tours/',
-        'GET /api/tour/:id',
+        'GET /api/tour/:id/',
         'GET /api/agencies/',
-        'GET /api/agencies/:id',
+        'GET /api/agencies/:id/',
         'GET /api/rooms/',
-        'GET /api/rooms/:id',
+        'GET /api/rooms/:id/',
         'GET /api/users/',
-        'GET /api/users/:id',
+        'GET /api/users/:id/',
         'POST /api/register/',
         'POST /api/login/',
         'POST /api/edit-profile/',
-        'GET /api/edit-profile/',
         'GET /api/logout/',
     ]
     return Response(routes)

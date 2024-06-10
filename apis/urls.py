@@ -56,7 +56,8 @@ urlpatterns = [
     
     path('rooms/', views.RoomListCreate.as_view(), name ='hotel-view-create'),
     path('rooms/<int:pk>/', views.RoomRetrieveUpdateDestroy.as_view(), name ='hotel-update'),
-    
+    ## path for room bookings
+    path('rooms/bookings/', views.RoomBookingListCreate.as_view(), name='room-booking'),
     
     
     path('users/', views.ProfileListCreate.as_view(), name='profile-view-create'),

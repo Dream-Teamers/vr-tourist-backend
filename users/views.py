@@ -85,26 +85,9 @@ def userProfile(request,username):
 class ProfileListCreate(generics.ListCreateAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticatedOrReadOnly]
-    # permission_classes = [IsAdminUser]
     
-## permissions.py code for IsAdminUser
-# from rest_framework.permissions import BasePermission
-
-# class IsAdminUser(BasePermission):
-#     """
-#     Custom permission to allow only admin users to access the view.
-#     """
-
-#     def has_permission(self, request, view):
-#         return request.user and request.user.is_authenticated and request.user.useraccount.role == 'admin'
-
 
 class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field = 'pk'
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticatedOrReadOnly]
-## a view that lists users which have a role of spesific role in the params

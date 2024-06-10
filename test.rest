@@ -12,9 +12,15 @@ POST https://server.aiwar365.com/api/login/
 Content-Type: application/json
 
 {
-    "username": "fgrfgr",
-    "password": "mike"
+    "username": "anwar",
+    "password": "anwar"
 }
+###
+POST https://server.aiwar365.com/api/logout/
+Content-Type: application/json
+Authorization: Token 5fbf8ce061924b2cb33114f9316f909fd8aa562c
+
+{}
 
 
 ###
@@ -41,6 +47,7 @@ Authorization: Token b183f5f39d3e8074457867745f11cc0896867260
 
 GET  http://127.0.0.1:8000/api/vrs/
 Content-Type: application/json
+Authorization: Token 018460cb737ccc218de044b835c154d283ca6859
 
 {
     "title": "Lalibela"
@@ -92,10 +99,12 @@ Content-Type: application/json
 
 ### Access protected endpoint
 
-GET https://server.aiwar365.com/api/users/3/
+GET https://server.aiwar365.com/api/users/2/
 Content-Type: application/json
 
 {}
+
+###
 
 PUT https://server.aiwar365.com/api/users/3/
 Content-Type: application/json

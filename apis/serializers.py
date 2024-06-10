@@ -113,6 +113,11 @@ class RoomSerializer(ModelSerializer):
         model = Room
         fields = ['id','room_type', 'occupancy', 'price_per_night', 'availability', 'images']
 
+class RoomBookingSerializer(ModelSerializer):
+    class Meta:
+        model = RoomBooking
+        fields = '__all__'
+
 class RoomTypeSerializer(ModelSerializer):
     class Meta:
         model = Room
