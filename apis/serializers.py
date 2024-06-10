@@ -49,6 +49,13 @@ class VRBookingSerializer(ModelSerializer):
         fields = '__all__'
         
 
+
+
+
+
+
+
+
 class TourSerializer(ModelSerializer):
     class Meta:
         model = Tour
@@ -65,31 +72,11 @@ class TourBookingSerializer(ModelSerializer):
         fields = '__all__'
 
 class TourAgencySerializer(ModelSerializer):
-    tours = TourSerializer(many=True)
-
+    
     class Meta:
         model = TourAgency
-        fields = ['id', 'name', 'description', 'contact_info', 'tours']
+        fields = ['id', 'admin','name', 'description', 'contact_info', 'tours']
 
-class TourSerializer(ModelSerializer):
-    class Meta:
-        model = Tour
-        fields = ['id', 'title', 'description', 'price', 'tags', 'locations', 'image_url', 'tour_url']
-
-class AgencyRatingSerializer(ModelSerializer):
-    class Meta:
-        model = AgencyRating
-        fields = '__all__'
-
-class TourBookingSerializer(ModelSerializer):
-    class Meta:
-        model = TourBooking
-        fields = '__all__'
-
-class TourAgencySerializer(ModelSerializer):
-    class Meta:
-        model = TourAgency
-        fields = ['id', 'name', 'description', 'address', 'contact_info', 'tours']
 class RoomImageSerializer(ModelSerializer):
     class Meta:
         model = RoomImage
@@ -114,4 +101,9 @@ class HotelSerializer(ModelSerializer):
     class Meta:
         model = Hotel
         fields = ['id', 'admin', 'name', 'address', 'description', 'rating', 'amenities', 'price_per_night', 'rooms', 'image_url']
-    
+
+# Room Booking Serializer
+class RoomBookingSerializer(ModelSerializer):
+    class Meta:
+        model = RoomBooking
+        fields = '__all__'

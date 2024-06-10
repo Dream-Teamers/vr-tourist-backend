@@ -3,6 +3,7 @@ from django.db import models
 from django.db import models
 
 class TourAgency(models.Model):
+    admin = models.ForeignKey('auth.User', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255)
     contact_info = models.CharField(max_length=255)
     description = models.TextField()

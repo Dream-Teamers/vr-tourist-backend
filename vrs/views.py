@@ -61,3 +61,12 @@ class VRRatingRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = VRRating.objects.all()
     serializer_class = VRRatingSerializer
     lookup_field = 'pk'
+    
+    
+## view for my vr bookings
+class MyVRs(generics.ListAPIView):
+    serializer_class = VRBookingSerializer
+    
+    def get_queryset(self):
+        return VRBooking.objects.filter(user=self.request.user)
+    

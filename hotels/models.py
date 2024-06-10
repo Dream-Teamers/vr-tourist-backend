@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import datetime, timedelta
+
 
 # Create your models here.
 class Hotel(models.Model):
@@ -63,4 +65,6 @@ class RoomImage(models.Model):
 class RoomBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, default=1)
+    check_in = models.DateTimeField(default=datetime.now)
+    check_out = models.DateTimeField(default=datetime.now() + timedelta(hours=8))
     created = models.DateTimeField(auto_now_add=True)

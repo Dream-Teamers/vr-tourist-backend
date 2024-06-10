@@ -20,7 +20,8 @@ urlpatterns = [
     # path for agencies
     path('agencies/', views.TourAgencyListCreate.as_view(), name='agency-view-create'),
     path('agencies/<int:pk>/', views.TourAgencyRetrieveUpdateDestroy.as_view(), name='agency-update'),
-    
+    # path for myagencies
+    path('myagencies/', views.MyAgencies.as_view(), name='my-agencies'),
     # path for tours
     path('tours/', views.TourListCreate.as_view(), name='tour-view-create'),
     path('tours/<int:pk>/', views.TourRetrieveUpdateDestroy.as_view(), name='tour-update'),
@@ -34,8 +35,10 @@ urlpatterns = [
     
     path('ratings/', views.VRRatingListCreate.as_view(), name='vr-rating-view-create'),
     
-    path('mybookings/', views.listBookings, name='my-bookings'),
-    
+    # path for mytours, myvrs, mybookings
+    path('mytours/', views.MyTours.as_view(), name='my-tours'),
+    path('myvrs/', views.MyVRs.as_view(), name='my-vrs'),
+    path('mybookings/', views.MyBookings.as_view(), name='my-bookings'),    
     # user profile path
     path('profiles/', views.ProfileListCreate.as_view(), name='profile-view-create'),
     path('profiles/<int:pk>/', views.ProfileRetrieveUpdateDestroy.as_view(), name='profile-update'),
@@ -50,12 +53,13 @@ urlpatterns = [
     
     path('hotels/', views.HotelListCreate.as_view(), name ='hotel-view-create'),
     path('hotels/<int:pk>/', views.HotelRetrieveUpdateDestroy.as_view(), name ='hotel-update'),
-    
+    ## path for myhotels
+    path('myhotels/', views.MyHotels.as_view(), name='my-hotels'),
     
     
     path('rooms/', views.RoomListCreate.as_view(), name ='hotel-view-create'),
     path('rooms/<int:pk>/', views.RoomRetrieveUpdateDestroy.as_view(), name ='hotel-update'),
-    
+    path('rooms/bookings/', views.RoomBookingListCreate.as_view(), name ='room-booking-view-create'),
     
     
     path('users/', views.ProfileListCreate.as_view(), name='profile-view-create'),
