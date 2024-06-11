@@ -1,0 +1,4 @@
+id,agency_id,title,description,duration,price,locations,image_url
+1,1,Entoto Sunrise Tour,"Experience the sunrise from the top of Entoto Hill",1,50.00,"Entoto",http://example.com/entoto_sunrise.jpg
+2,2,National Palace Day Tour,"A full-day tour of the 4 Killo National Palace",1,100.00,"4 Killo National Palace",http://example.com/national_palace.jpg
+3,3,Lalibela Weekend Trip,"A weekend tour of the rock-hewn churches",3,300.00,"Lalibela",http://example.com/lalibela_weekend.jpg

@@ -29,11 +29,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apis',
-    'db_manager',
-    'hotels',
-    'users',
-    'vr_experience',
-    'agencies',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -43,6 +38,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'users',
+    'hotels',
+    'vrs',
+    'agencies',
 ]
 
 
@@ -62,7 +61,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -102,10 +101,6 @@ DATABASES = {
     }
 }
 
-
-
-ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost', '127.0.0.1']
-CSRF_TRUST_ORIGIN = ['']
 
 # DATABASES = {
 #     'default': {
@@ -156,23 +151,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
- BASE_DIR / 'static'
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOW_ALL_ORIGINS = True
-
-MEDIA_URL = '/media/'
-
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUST_ORIGIN = ['*']
+
+CSRF_TRUST_ORIGIN = ["*"]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 AUTHENTICATION_BACKENDS = (

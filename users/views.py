@@ -1,213 +1,89 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, get_object_or_404
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status, generics
+from rest_framework.authtoken.models import Token
+from apis.serializers import UserSerializer, UserAccountSerializer, VRBookingSerializer
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
-from django.contrib.auth.models import User
-from users.forms import UserUpdateForm, HelpSupportForm, UserAccountUpdateForm
-from .forms import CustomUserCreationForm
 from .models import UserAccount
-# ### change password for the user
-
-# from django.contrib.auth.models import PasswordChange
+from vrs.models import VRBooking
 
 
 
-
-def registerPage(request):
-    form = CustomUserCreationForm()
-    
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username').lower()
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'Username already exists')
-            else:
-                user = form.save(commit=False)
-                user.username = username
-                user.save()
-                
-                # Create UserAccount instance with selected role
-                if not UserAccount.objects.filter(user=user).exists():
-
-                    role = form.cleaned_data.get('role', 'tourist')
-                    UserAccount.objects.create(user=user, role=role)
-                    
-                messages.success(request, f'Account was created. Please log in.')
-                return redirect('login')
-        else:
-            messages.error(request, 'Unsuccessful registration. Invalid information.')
-
-    return render(request, 'users/register.html', {'form': form})
+@api_view(['POST'])
+def register(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        user.set_password(request.data['password'])
+        user.save()
+        token = Token.objects.create(user=user)
+        return Response({"token": token.key, "user": serializer.data})
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-def loginUser(request):
-    
-    
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            messages.error(request, 'Username does not exist')
-            return redirect('login')
-
-        # except:
-        #     messages.error(request, 'Username does not exist')
-            
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            
-            login(request, user)
-            user_account = request.user.useraccount
-            # next_url = request.GET.get('next', 'home')
-            if user_account.role == 'tourist':
-                return redirect('home')
-            elif user_account.role == 'tour_agency':
-                return redirect('tour-agency-dashboard')
-            elif user_account.role == 'admin':
-                return redirect('admin-dashboard')
-            elif user_account.role == 'hotel':
-                return redirect('hotel-manager-dashboard')
-            else:
-                return redirect('vrs')
-        else:
-            messages.error(request, 'Username OR password is incorrect')
-
-    return render(request, 'users/login.html')
-
-
-def logoutUser(request):
-    logout(request)
-    messages.info(request, 'User was logged out!')
-    return redirect('home')
-
-
-
-@login_required(login_url='login')
-def tourist_dashboard(request):
-    return render(request, 'users/tourist_dashboard.html')
-
-@login_required(login_url='login')
-def admin_dashboard(request):
-    return render(request, 'users/admin_dashboard.html')
-
-
-
-
-@login_required(login_url='login')
-def userProfile(request, username):
-    # profile = get_object_or_404(UserProfile, username=username)
-    user = get_object_or_404(User, username=username)
-    profile = get_object_or_404(UserAccount, user=user.id)
-    context = {'profile': profile,'user': user}
-    return render(request, 'users/profiles.html', context)
-
-
-@login_required(login_url='login')
-def editProfile(request, username):
-    if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        user_account_form = UserAccountUpdateForm(request.POST, instance=request.user.useraccount)
-        if user_form.is_valid() and user_account_form.is_valid():
-            user = user_form.save()  # Save User form first
-            user_account = user_account_form.save(commit=False)  # Get UserAccount instance without saving
-            user_account.user = user  # Associate the UserAccount instance with the User instance
-            user_account.save()  # Save UserAccount form
-            return redirect('user-profile', username=request.user.username)
-        
+@api_view(['POST','GET'])
+def login(request):
+    user = get_object_or_404(User, username=request.data['username'])
+    useraccount = get_object_or_404(UserAccount, user=user)
+    print(useraccount.role)
+    if not user.check_password(request.data['password']):
+        return Response({"detail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+    user_account = useraccount
+    token , created= Token.objects.get_or_create(user=user )
+    serializer = UserSerializer(instance=user)
+    if user_account.role == 'tourist':
+        return Response({"token":token.key, "user":serializer.data, "role":"tourist"})
+    elif user_account.role == 'tour_agency':
+        return Response({"token":token.key, "user":serializer.data, "role":"agency"})
+    elif user_account.role == 'admin':
+        return Response({"token":token.key, "user":serializer.data, "role":"admin"})
+    elif user_account.role == 'hotel':
+       return Response({"token":token.key, "user":serializer.data, "role":"hotel"})
     else:
-        user_form = UserUpdateForm(instance=request.user)
-        user_account_form = UserAccountUpdateForm(instance=request.user.useraccount)
-    context = {'user_form': user_form,
-        'user_account_form': user_account_form,}
-    return render(request, 'users/edit_profile.html', context)
+        return Response({"token":token.key, "user":serializer.data, "role":"guest"})
+    # return Response({"message": "Hello"})
 
 
 
-@login_required(login_url='login')
-def book_tour(request):
-    return render(request, 'users/book_tour.html')
-
-@login_required(login_url='login')
-def my_tours(request):
-    return render(request, 'users/my_tours.html')
-
-@login_required(login_url='login')
-def explore_tours(request):
-    return render(request, 'users/explore_tours.html')
-
-@login_required(login_url='login')
-def account_settings(request):
-    return render(request, 'users/account_settings.html')
-
-@login_required(login_url='login')
-def notifications(request):
-    return render(request, 'users/notifications.html')
-
-@login_required(login_url='login')
-def help_support(request):
-    if request.method == 'POST':
-        form = HelpSupportForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('help-support')
-    else:
-        form = HelpSupportForm()
-    return render(request, 'users/help_support.html', {'form': form})
-
-    #return render(request, 'users/help_support.html')
-
-@login_required(login_url='login')
-def settings(request):
-    return render(request, 'users/settings.html')
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def test_token(request):
+    return Response("passed for {}".format(request.user.email))
 
 
-# Role based dashboard
-@login_required(login_url='login')
-def role_dashboard(request, role):
-    if role == 'tourist':
-        return redirect('tourist-dashboard')
-    elif role == 'tour_agency':
-        return redirect('tour-agency-dashboard')
-    elif role == 'hotel':
-        return redirect('hotel-manager-dashboard')
-    else:
-        return redirect('home')
+# list user bookings
+@api_view(['GET'])
+def listBookings(request):
+    serializer = VRBookingSerializer(VRBooking.objects.filter(user=request.user.id), many=True)
+    print(request.user.id)
+    print(serializer.data)
+    return Response(serializer.data)   
 
 
 
-@login_required(login_url='login')
-def home(request):
-    user_account = request.user.useraccount
-    context = {
-        'user_role': user_account.role
-    }
-    return render(request, 'users/home.html', context)
+## user profile view
+@api_view(['GET'])
+def userProfile(request,username):
+    user = User.objects.get(username=username)
+    useraccount = get_object_or_404(UserAccount, user=user.id)
+    serializer = UserSerializer(instance=user)
+    return Response({"user":serializer.data, "role":useraccount.role})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+class ProfileListCreate(generics.ListCreateAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+    
+    
+class ProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+    lookup_field = 'pk'
+    
+## a view that lists users which have a role of spesific role in the params
