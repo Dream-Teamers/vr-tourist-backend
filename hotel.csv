@@ -1,0 +1,4 @@
+id,admin_id,name,address,description,rating,amenities,price_per_night,image_url,created
+11,2,Entoto Hotel,"Entoto Street, Addis Ababa","A luxurious stay at the foot of Entoto Hill",4.5,"Free WiFi, Pool, Spa",150.00,http://example.com/entoto_hotel.jpg,2024-01-01 12:00:00
+22,2,National Palace Hotel,"4 Killo, Addis Ababa","Stay next to the National Palace",4.0,"Free Breakfast, Gym, Sauna",200.00,http://example.com/national_palace_hotel.jpg,2024-01-01 12:00:00
+31,2,Lalibela Lodge,"Lalibela Town, Lalibela","Comfort and convenience in Lalibela",3.5,"Free Parking, Restaurant",100.00,http://example.com/lalibela_lodge.jpg,2024-01-01 12:00:00
